@@ -5,15 +5,15 @@ public class Reto4 {
             return;
         }
 
-        double a, b, c;
-        try {
-            a = Double.parseDouble(args[0]);
-            b = Double.parseDouble(args[1]);
-            c = Double.parseDouble(args[2]);
-        } catch (NumberFormatException e) {
+        // Validar que los argumentos son números
+        if (!esNumero(args[0]) || !esNumero(args[1]) || !esNumero(args[2])) {
             System.out.println("Introduce solo números (pueden ser decimales).");
             return;
         }
+
+        double a = Double.parseDouble(args[0]);
+        double b = Double.parseDouble(args[1]);
+        double c = Double.parseDouble(args[2]);
 
         if (a == 0) {
             System.out.println("El coeficiente 'a' no puede ser 0.");
@@ -35,5 +35,10 @@ public class Reto4 {
             double imag = Math.sqrt(-disc)/(2*a);
             System.out.printf("Raices complejas: %.2f ± %.2fi%n", real, imag);
         }
+    }
+
+    // Método auxiliar para validar si una cadena es un número válido
+    private static boolean esNumero(String s) {
+        return s.matches("-?\\d+(\\.\\d+)?");
     }
 }
