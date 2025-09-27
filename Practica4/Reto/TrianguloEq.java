@@ -3,7 +3,7 @@ import java.awt.*;
 
 // Clase para manejar los cálculos del triángulo
 class TrianguloEquilatero {
-    private double x1, y1, x2, y2, x3, y3;
+    double x1, y1, x2, y2, x3, y3;
 
     public TrianguloEquilatero(double x1, double y1, double x2, double y2, double x3, double y3) {
         this.x1 = x1;
@@ -15,7 +15,7 @@ class TrianguloEquilatero {
     }
 
     // Método para calcular distancia entre dos puntos
-    private double distancia(double xa, double ya, double xb, double yb) {
+    double distancia(double xa, double ya, double xb, double yb) {
         return Math.sqrt(Math.pow((xb - xa), 2) + Math.pow((yb - ya), 2));
     }
 
