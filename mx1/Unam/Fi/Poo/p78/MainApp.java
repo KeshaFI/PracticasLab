@@ -1,3 +1,5 @@
+package mx1.Unam.Fi.Poo.p78;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;

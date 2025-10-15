@@ -1,3 +1,5 @@
+package mx1.Unam.Fi.Poo.p78;
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 

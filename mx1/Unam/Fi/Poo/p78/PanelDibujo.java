@@ -1,3 +1,5 @@
+package mx1.Unam.Fi.Poo.p78;
+
 import javax.swing.JPanel;
 import javax.swing.BorderFactory;
 import java.awt.Color;
