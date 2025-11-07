@@ -47,6 +47,16 @@ INPUT C:\Users\delto\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy8.tfm
 INPUT C:\Users\delto\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmsy6.tfm
 INPUT C:\Users\delto\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmr12.tfm
 INPUT C:\Users\delto\AppData\Local\Programs\MiKTeX\fonts\tfm\public\cm\cmbx12.tfm
+INPUT .\Introduccion.tex
+INPUT .\Introduccion.tex
+INPUT .\Introduccion.tex
+INPUT .\Introduccion.tex
+INPUT Introduccion.tex
+INPUT .\Marco Teorico.tex
+INPUT .\Marco Teorico.tex
+INPUT .\Marco Teorico.tex
+INPUT .\Marco Teorico.tex
+INPUT Marco Teorico.tex
 OUTPUT main.pdf
 INPUT C:\Users\delto\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
 INPUT main.aux

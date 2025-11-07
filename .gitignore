@@ -1,0 +1,15 @@
+# Archivos de compilación de LaTeX para mantener el repositorio limpio
+#
+# Archivos auxiliares, logs, etc. (IGNORAR)
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.toc
+*.out
+*.nav
+*.snm
+
+# Archivos PDF (INCLUIR) - El profesor necesita ver esto
+#*.pdf

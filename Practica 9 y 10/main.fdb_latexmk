@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1762531563.9545 "c:/Users/delto/Desktop/POO/Repositorio del equipo/PracticasLab/Practica 9 y 10/main.tex" "main.pdf" "main" 1762531564.71316 0
+["pdflatex"] 1762534183.32146 "c:/Users/delto/Desktop/POO/Repositorio del equipo/PracticasLab/Practica 9 y 10/main.tex" "main.pdf" "main" 1762534183.925 0
   "C:/Users/delto/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1762531284.35209 80909 eab91d9745dd2edfd62a31d53cd5fe15 ""
   "C:/Users/delto/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1762531294.50226 24225087 51c3bc20049900ea460872517d7c4a80 ""
   "C:/Users/delto/AppData/Local/Programs/MiKTeX/fonts/tfm/public/cm/cmbx12.tfm" 1136765053 1324 c910af8c371558dc20f2d7822f66fe64 ""
@@ -29,8 +29,10 @@
   "C:/Users/delto/AppData/Local/Programs/MiKTeX/tex/latex/graphics/keyval.sty" 1665067579 2671 7e67d78d9b88c845599a85b2d41f2e39 ""
   "C:/Users/delto/AppData/Local/Programs/MiKTeX/tex/latex/graphics/trig.sty" 1665067579 4023 293ea1c16429fc0c4cf605f4da1791a9 ""
   "C:/Users/delto/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backend-pdftex.def" 1704400941 30006 57b07afb710ee2f649c65cfbafda39c1 ""
-  "c:/Users/delto/Desktop/POO/Repositorio del equipo/PracticasLab/Practica 9 y 10/main.tex" 1762531563.18724 264 26e18a931f2a234260c388ac5e5b3b34 ""
-  "main.aux" 1762531564.55651 132 becad25d16353fbd81e5644d2e8bca32 "pdflatex"
+  "Introduccion.tex" 1762533453.53157 0 d41d8cd98f00b204e9800998ecf8427e ""
+  "Marco Teorico.tex" 1762534149.5379 13 17028c16b40a06cf6c8bbc902e277c7d ""
+  "c:/Users/delto/Desktop/POO/Repositorio del equipo/PracticasLab/Practica 9 y 10/main.tex" 1762534182.53686 303 bf5e3fb9a13db3ef479da5f0a02f307e ""
+  "main.aux" 1762534183.78518 235 1c9534f8bca27d6132b10cd10dae44b2 "pdflatex"
   (generated)
   "main.aux"
   "main.log"
