@@ -1,0 +1,57 @@
+A continuacion se mostraran primero los diagrmas UML, comenzando con el estatico.
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{Practica 9 y 10/DiagramaEstatico.drawio.png}
+    \caption{Diagrama estatico}
+    \label{fig:placeholder}
+\end{figure}
+
+El diseño de clases propuesto implementa un sistema para gestionar servicios de vehículos de un taller mecánico, aplicando los pilares fundamentales de la Programación Orientada a Objetos (POO): Abstracción, Herencia, y Polimorfismo.
+
+
+\subsection*{1. Interfaz (ServicioTaller) y Contrato}
+
+El diseño se inicia con la Interfaz ServicioTaller, la cual define un contrato de funcionalidad que debe ser implementado obligatoriamente por cualquier clase que quiera ser gestionada como un "Servicio de Taller".
+
+\begin{itemize}
+    \item Métodos del Contrato:
+    \begin{itemize}
+        \item calcularServicio(): Obliga a calcular el costo del servicio.
+        \item generarReporteServicio(): Obliga a generar un informe detallado del servicio.
+    \end{itemize}
+\end{itemize}
+
+Esta interfaz garantiza la interoperabilidad: cualquier vehículo que cumpla con este contrato puede ser tratado de forma genérica como un objeto capaz de ser atendido en el taller.
+
+
+
+\subsection*{2. Clase Base Abstracta (Vehiculo) y Abstracción}
+
+La clase Vehiculo es una clase abstracta. Esto significa que no se pueden crear instancias directas de Vehiculo; solo se pueden instanciar sus subclases concretas.
+
+\begin{itemize}
+    \item Implementación de Interfaz: La clase Vehiculo es la que formalmente implementa la interfaz ServicioTaller. Esto asegura que todos los vehículos, independientemente de su tipo, cumplirán con el contrato de servicio.
+    \item Abstracción de Atributos Comunes: Esta clase encapsula los atributos esenciales compartidos por todos los vehículos: \_marca, \_modelo, y \_anio. También proporciona métodos comunes, como descripcion(), que ofrece una representación básica del vehículo.
+\end{itemize}
+
+
+\subsection*{3. Clases Concretas y Herencia}
+
+Las clases Auto, Moto, y Camion son las clases concretas.
+
+\begin{itemize}
+    \item Relación de Herencia (Extends): Cada una de estas clases hereda de la clase Vehiculo, adquiriendo automáticamente sus atributos y el compromiso de implementar los métodos del contrato de servicio.
+    \item Atributos Específicos: Cada clase introduce atributos únicos relevantes para su tipo (\_tieneAireAcondicionado en Auto, \_cilindrada en Moto, \_capacidadToneladas en Camion).
+\end{itemize}
+
+
+\subsection*{4. Polimorfismo y Especialización}
+
+El principio de Polimorfismo (múltiples formas) es fundamental en este diseño y se evidencia en la sobreescritura (@override) de los métodos heredados.
+
+\begin{itemize}
+    \item Sobreescritura de Métodos (@override): Aunque todos los vehículos deben calcularServicio() y generarReporteServicio() (por el contrato de la interfaz), la lógica de cómo se hace es específica para cada tipo de vehículo.
+    \item Ejemplo: El método calcularServicio() en la clase Auto incluye un recargo por aire acondicionado, mientras que en la clase Camion incluye costos por revisión de frenos y suspensión, y un recargo por capacidad de carga.
+\end{itemize}
+
+Esta especialización a través del polimorfismo permite que el sistema trate a todos los objetos de manera uniforme (como un ServicioTaller), mientras ejecuta el comportamiento adecuado para su tipo específico.
