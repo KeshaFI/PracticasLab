@@ -56,4 +56,24 @@ El principio de Polimorfismo (múltiples formas) es fundamental en este diseño 
 
 Esta especialización a través del polimorfismo permite que el sistema trate a todos los objetos de manera uniforme (como un ServicioTaller), mientras ejecuta el comportamiento adecuado para su tipo específico.
 \newpage
-\input{umlDinamico.tex}
+Para el diagrama dinámico:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{uml_dinamico.png}
+    \caption{Diagrama dinamico}
+    \label{fig:placeholder}
+\end{figure}
+
+Para cumplir con el modelado del comportamiento, se representa el polimorfismo que ocurre cuando el usuario selecciona la opción "Ver reportes detallados". El diagrama muestra cómo la función \textbf{mostrarReportesDetallados} trata a todos los vehículos disponibles de la misma manera pero cada objeto responde de manera diferente.
+
+\textbf{Polimorfismo}
+
+La flotilla no necesita saber si se trata de un auto, motocicleta o camión, trata a todos sus elementos como un vehículo genérico. Envía el mismo mensaje -\textit{generarReporteServicio()}- y, gracias al enlace dinámico -\textit{dynamic binding}- de Dart, el sistema selecciona en tiempo de ejecución la versión correcta @override del método que debe ejecutarse.
+
+Esta misma no sabe cómo auto calculó su servicio, simplemente confía en que el objeto sabe cómo hacerlo, esto se debe a la lógica interna llamada \textit{calcularServicio()}, que está oculta dentro del objeto, es decir, está encapsulado.
+
+\textbf{Bucle y mensaje polimórfico}
+La función que opera sobre el objeto flotilla inicia un bucle que itera sobre cada elemento "v" de su colección. Dentro del bucle, flotilla envía el mismo mensaje -\textit{v.generarReporteServicio()}- al primer objeto, que resulta ser un auto. Este mismo recibe el mensaje y completa el reporte haciendo una auto-llamada de \textit{calcularServicio()} para devolver el reporte formateado.
+
+Para la siguiente iteración el bucle envía el mismo mensaje al siguiente objeto que es una moto, hace lo mismo que auto pero hace su propia versión de \textit{calcularServicio()} que en este caso utiliza la cilindrada para efectuar su cálculo. El bucle continuará de la misma manera para los demás vehículos, finalmente la función \textit{mostrarReportesDetallados} imprime los resultados en la consola.

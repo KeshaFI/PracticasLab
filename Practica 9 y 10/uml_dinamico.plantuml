@@ -1,0 +1,44 @@
+@startuml
+skinparam linetype ortho
+autonumber "<b>[0]</b>"
+
+actor "Usuario (main)" as main
+participant "flotilla: List<Vehiculo>" as flotilla
+participant "auto: Auto" as auto
+participant "moto: Moto" as moto
+
+'Secuencia
+main -> main : Usuario elige "Ver reportes detallados"
+activate main
+
+main -> flotilla : mostrarReportesDetallados(flotilla)
+activate flotilla
+
+loop para cada 'v' en flotilla
+    flotilla -> auto : v.generarReporteServicio()
+    activate auto
+    auto -> auto : calcularServicio()
+    activate auto
+    auto --> auto : 850.0 (base + alineación + A/C)
+    deactivate auto
+    
+    auto --> flotilla : "Reporte de AUTO..."
+    deactivate auto
+    flotilla -> moto : v.generarReporteServicio()
+    activate moto
+    
+
+    moto -> moto : calcularServicio()
+    activate moto
+    moto --> moto : 650.0 (base + cadena + cilindrada)
+    deactivate moto
+    
+    moto --> flotilla : "Reporte de MOTO..."
+    deactivate moto
+end
+
+flotilla --> main : (Muestra reportes en consola)
+deactivate flotilla
+deactivate main
+
+@enduml
