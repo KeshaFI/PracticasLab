@@ -55,14 +55,16 @@ El principio de Polimorfismo (múltiples formas) es fundamental en este diseño 
 \end{itemize}
 
 Esta especialización a través del polimorfismo permite que el sistema trate a todos los objetos de manera uniforme (como un ServicioTaller), mientras ejecuta el comportamiento adecuado para su tipo específico.
-\newpage
+
+
+
 Para el diagrama dinámico:
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\linewidth]{uml_dinamico.png}
     \caption{Diagrama dinamico}
-    \label{fig:placeholder}
+    \label{fig:placeholders}
 \end{figure}
 
 Para cumplir con el modelado del comportamiento, se representa el polimorfismo que ocurre cuando el usuario selecciona la opción "Ver reportes detallados". El diagrama muestra cómo la función \textbf{mostrarReportesDetallados} trata a todos los vehículos disponibles de la misma manera pero cada objeto responde de manera diferente.
@@ -77,3 +79,6 @@ Esta misma no sabe cómo auto calculó su servicio, simplemente confía en que e
 La función que opera sobre el objeto flotilla inicia un bucle que itera sobre cada elemento "v" de su colección. Dentro del bucle, flotilla envía el mismo mensaje -\textit{v.generarReporteServicio()}- al primer objeto, que resulta ser un auto. Este mismo recibe el mensaje y completa el reporte haciendo una auto-llamada de \textit{calcularServicio()} para devolver el reporte formateado.
 
 Para la siguiente iteración el bucle envía el mismo mensaje al siguiente objeto que es una moto, hace lo mismo que auto pero hace su propia versión de \textit{calcularServicio()} que en este caso utiliza la cilindrada para efectuar su cálculo. El bucle continuará de la misma manera para los demás vehículos, finalmente la función \textit{mostrarReportesDetallados} imprime los resultados en la consola.
+
+
+
