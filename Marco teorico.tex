@@ -1,0 +1,1059 @@
+\subsection{Clases y objetos}
+Dart es un lenguaje orientado a objetos con clases y herencia basada en mixins. Cada objeto es una instancia de una clase, y todas las clases, excepto Null, descienden de Object. La herencia basada en mixins significa que, aunque cada clase (excepto la clase superior, ¿Object?) tiene exactamente una superclase, el cuerpo de una clase se puede reutilizar en múltiples jerarquías de clases. Los métodos de extensión son una forma de añadir funcionalidad a una clase sin cambiarla ni crear una subclase. Los modificadores de clase permiten controlar cómo las bibliotecas pueden subtipificar una clase.\cite{dart_language}
+
+En la programación orientada a objetos , un objeto es una unidad autocontenida de código y datos. Los objetos se crean a partir de plantillas llamadas clases. Un objeto se compone de propiedades (variables) y métodos (funciones). Un objeto es una instancia de una clase.\cite{dart_language}
+\begin{itemize}
+    \item Utilizando miembros de clase:
+    
+    Los objetos tienen miembros que consisten en funciones y datos ( métodos y variables de instancia , respectivamente). Al llamar a un método, se invoca sobre un objeto: el método tiene acceso a las funciones y datos de ese objeto.
+    Utilice un punto (.) para referirse a una variable de instancia o método:
+
+    
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+var p = Point(2, 2);
+
+// Get the value of y.
+assert(p.y == 2);
+
+// Invoke distanceTo() on p.
+double distance = p.distanceTo(Point(4, 4));
+\end{lstlisting}
+\end{center}
+Utilice ?.en su lugar .para evitar una excepción cuando el operando más a la izquierda sea nulo:
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+// If p is non-null, set a variable equal to its y value.
+var a = p?.y;
+\end{lstlisting}
+\end{center}
+\item Utilizando constructores
+Puedes crear un objeto usando un constructor . Los nombres de los constructores pueden ser `init` ClassNameo `init` . Por ejemplo, el siguiente código crea objetos usando los constructores `init` y `init`: ClassName.identifierPointPoint()Point.fromJson().\cite{dart_language}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+var p1 = Point(2, 2);
+var p2 = Point.fromJson({'x': 1, 'y': 2});
+\end{lstlisting}
+\end{center}
+El siguiente código tiene el mismo efecto, pero utiliza la newpalabra clave opcional antes del nombre del constructor:
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+var p1 = new Point(2, 2);
+var p2 = new Point.fromJson({'x': 1, 'y': 2});
+\end{lstlisting}
+\end{center}
+\item Variables y métodos de clase
+
+utilice la static palabra clave para implementar variables y métodos de toda la clase.
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Queue {
+  static const initialCapacity = 16;
+  // ···
+}
+
+void main() {
+  assert(Queue.initialCapacity == 16);
+}
+\end{lstlisting}
+\end{center}
+\item métodos estáticos
+
+Los métodos estáticos (métodos de clase) no operan sobre una instancia y, por lo tanto, no tienen acceso a ella this. Sin embargo, sí tienen acceso a las variables estáticas. Como muestra el siguiente ejemplo, los métodos estáticos se invocan directamente en una clase.\cite{dart_language}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+import 'dart:math';
+
+class Point {
+  double x, y;
+  Point(this.x, this.y);
+
+  static double distanceBetween(Point a, Point b) {
+    var dx = a.x - b.x;
+    var dy = a.y - b.y;
+    return sqrt(dx * dx + dy * dy);
+  }
+}
+
+void main() {
+  var a = Point(2, 2);
+  var b = Point(4, 4);
+  var distance = Point.distanceBetween(a, b);
+  assert(2.8 < distance && distance < 2.9);
+  print(distance);
+}
+\end{lstlisting}
+\end{center}
+\end{itemize}
+\subsection{Constructores}
+Los constructores son funciones especiales que crean instancias de clases.
+
+Dart implementa muchos tipos de constructores. Excepto los constructores por defecto, estas funciones utilizan el mismo nombre que su clase.\cite{dart_language}
+\medskip
+\begin{enumerate}
+    \item constructores generativos
+Para instanciar una clase, utilice un constructor generativo.
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Point {
+  // Instance variables to hold the coordinates of the point.
+  double x;
+  double y;
+
+  // Generative constructor with initializing formal parameters:
+  Point(this.x, this.y);
+}
+\end{lstlisting}
+\end{center}
+\item Constructores por defecto
+
+Si no declaras un constructor, Dart utiliza el constructor predeterminado. El constructor predeterminado es un constructor generativo sin argumentos ni nombre.\cite{dart_language}
+\item Constructores con nombre
+
+Utilice un constructor con nombre para implementar múltiples constructores para una clase o para proporcionar mayor claridad:
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+vconst double xOrigin = 0;
+const double yOrigin = 0;
+
+class Point {
+  final double x;
+  final double y;
+
+  // Sets the x and y instance variables
+  // before the constructor body runs.
+  Point(this.x, this.y);
+
+  // Named constructor
+  Point.origin() : x = xOrigin, y = yOrigin;
+}
+\end{lstlisting}
+\end{center}
+Una subclase no hereda el constructor con nombre de la superclase. Para crear una subclase con un constructor con nombre definido en la superclase, implemente dicho constructor en la subclase.
+\item Constructores constantes
+
+Si tu clase produce objetos que no cambian, haz que estos objetos sean constantes en tiempo de compilación. Para ello, define un constconstructor con todas las variables de instancia establecidas como final.\cite{dart_language}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class ImmutablePoint {
+  static const ImmutablePoint origin = ImmutablePoint(0, 0);
+
+  final double x, y;
+
+  const ImmutablePoint(this.x, this.y);
+}
+\end{lstlisting}
+\end{center}
+Los constructores constantes no siempre crean constantes. Pueden invocarse fuera de un constcontexto. Para obtener más información, consulte la sección sobre el uso de constructores .
+\item Constructores de redireccionamiento
+
+Un constructor puede redirigir a otro constructor de la misma clase. Un constructor que redirige tiene un cuerpo vacío. El constructor utiliza thisen lugar del nombre de la clase después de dos puntos ( :).
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Point {
+  double x, y;
+
+  // The main constructor for this class.
+  Point(this.x, this.y);
+
+  // Delegates to the main constructor.
+  Point.alongXAxis(double x) : this(x, 0);
+}
+\end{lstlisting}
+\end{center}
+\end{enumerate}
+\subsection{Encapsulacion, Getters y Setters}
+
+En Dart, la encapsulación consiste en ocultar datos dentro de una biblioteca, protegiéndolos de factores externos. Esto ayuda a controlar el programa y evita que se vuelva demasiado complejo.\cite{dartTutorial_generics}
+
+La encapsulación se puede lograr mediante:
+\begin{itemize}
+    \item Declarar las propiedades de la clase como privadas utilizando guion bajo () .
+    \item Proporcionar métodos públicos getter y setter para acceder y actualizar el valor de la propiedad privada.
+\end{itemize}
+Nota:
+Dart no admite palabras clave como `public` , `private` y `protected. Dart utiliza ```\textbf{\_}'' (guion bajo) para indicar que una propiedad o método es privado.
+Los métodos getter y setter se utilizan para acceder y actualizar el valor de una propiedad privada. Los métodos getter se utilizan para acceder al valor de una propiedad privada. Los métodos setter se utilizan para actualizar el valor de una propiedad privada.\cite{dartTutorial_generics}
+
+Ejemplo 1:
+En este ejemplo, crearemos una clase llamada \texttt{Employee}. Esta clase tendrá dos propiedades privadas: $\mathbf{\_}$id y $\mathbf{\_}$name. También crearemos dos métodos públicos, \texttt{getId()} y \texttt{getName()}, para acceder a las propiedades privadas. Asimismo, crearemos dos métodos públicos, \texttt{setId()} y \texttt{setName()}, para actualizar las propiedades privadas.\cite{dartTutorial_generics}
+
+
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Employee {
+  // Private properties
+  int? _id;
+  String? _name;
+
+// Getter method to access private property _id
+  int getId() {
+    return _id!;
+  }
+// Getter method to access private property _name
+  String getName() {
+    return _name!;
+  }
+// Setter method to update private property _id
+  void setId(int id) {
+    this._id = id;
+  }
+// Setter method to update private property _name
+  void setName(String name) {
+    this._name = name;
+  }
+  
+}
+
+void main() {
+  // Create an object of Employee class
+  Employee emp = new Employee();
+  // setting values to the object using setter
+  emp.setId(1);
+  emp.setName("John");
+
+  // Retrieve the values of the object using getter
+  print("Id: ${emp.getId()}");
+  print("Name: ${emp.getName()}");
+}
+\end{lstlisting}
+\end{center}
+En Dart, puedes controlar el acceso a las propiedades e implementar la encapsulación mediante el uso de propiedades de solo lectura. Para ello, añade la palabra clave ` final` antes de la declaración de la propiedad. De esta forma, solo podrás acceder a su valor, pero no modificarlo.\cite{dartTutorial_generics}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Student {
+  final _schoolname = "ABC School";
+
+  String getSchoolName() {
+    return _schoolname;
+  }
+}
+
+void main() {
+  var student = Student();
+  print(student.getSchoolName());
+  // This is not possible
+  //student._schoolname = "XYZ School";
+}
+\end{lstlisting}
+\end{center}
+
+Puedes crear métodos getter y setter usando las palabras clave \texttt{get} y \texttt{set}. En el siguiente ejemplo, hemos creado una clase llamada \texttt{Vehicle}. Esta clase tiene dos propiedades privadas: $\mathbf{\_}$model y $\mathbf{\_}$year. También hemos creado dos métodos getter y setter para cada propiedad. Estos métodos se llaman \texttt{model} y \texttt{year}, y se utilizan para acceder y actualizar el valor de las propiedades privadas.\cite{dartTutorial_generics}
+\medskip
+
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Vehicle {
+  String _model;
+  int _year;
+
+  // Getter method
+  String get model => _model;
+
+  // Setter method
+  set model(String model) => _model = model;
+
+  // Getter method
+  int get year => _year;
+
+  // Setter method
+  set year(int year) => _year = year;
+}
+
+void main() {
+  var vehicle = Vehicle();
+  vehicle.model = "Toyota";
+  vehicle.year = 2019;
+  print(vehicle.model);
+  print(vehicle.year);
+}
+\end{lstlisting}
+\end{center}
+¿Por qué es importante la encapsulación?
+\begin{enumerate}
+    \item Ocultación de datos : La encapsulación oculta los datos del exterior. Impide que el código fuera de la clase acceda a ellos. Esto se conoce como ocultación de datos.\cite{dartTutorial_generics}
+    \item Facilidad de prueba : La encapsulación permite probar la clase de forma aislada. Esto permite probar la clase sin necesidad de probar el código fuera de ella.\cite{dartTutorial_generics}
+    \item Flexibilidad : La encapsulación permite cambiar la implementación de la clase sin afectar al código que se encuentra fuera de la clase.\cite{dartTutorial_generics}
+    \item Seguridad : La encapsulación permite restringir el acceso a los miembros de la clase. Esto permite limitar el acceso a los miembros de la clase desde el código externo a la biblioteca.\cite{dartTutorial_generics}
+
+
+\end{enumerate}
+\subsection{Herencia}
+La herencia es la compartición de comportamiento entre dos clases. Permite definir una clase que extiende la funcionalidad de otra. La palabra clave `extend` se utiliza para heredar de la clase padre.\cite{dartTutorial_generics}
+
+ Cuando se utiliza la herencia, siempre se crea una relación "es un/una" entre la clase padre y la clase hija, como por ejemplo: Estudiante es una Persona , Camión es un Vehículo , Vaca es un Animal , etc.
+
+ Dart admite herencia simple, lo que significa que una clase solo puede heredar de una única clase. Dart no admite herencia múltiple, lo que significa que una clase no puede heredar de varias clases.\cite{dartTutorial_generics}
+ \begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class ParentClass {
+  // Parent class code
+}
+
+class ChildClass extends ParentClass {
+  // Child class code
+}
+\end{lstlisting}
+\end{center}
+En esta sintaxis, ParentClass es la superclase y ChildClass es la subclase. ChildClass hereda las propiedades y métodos de ParentClass .
+
+Términos:
+\begin{itemize}
+    \item Clase padre: La clase cuyas propiedades y métodos hereda otra clase se denomina clase padre. También se la conoce como clase base o superclase.\cite{dartTutorial_generics}
+    \item Clase hija: La clase que hereda las propiedades y métodos de otra clase se denomina clase hija. También se la conoce como clase derivada o subclase.\cite{dartTutorial_generics}
+\end{itemize}
+Ejemplo 1:
+En este ejemplo, crearemos una clase Persona y luego crearemos una clase Estudiante que hereda las propiedades y métodos de la clase Persona
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Person {
+  // Properties
+  String? name;
+  int? age;
+
+  // Method
+  void display() {
+    print("Name: $name");
+    print("Age: $age");
+  }
+}
+// Here In student class, we are extending the
+// properties and methods of the Person class
+class Student extends Person {
+  // Fields
+  String? schoolName;
+  String? schoolAddress;
+
+  // Method
+  void displaySchoolInfo() {
+    print("School Name: $schoolName");
+    print("School Address: $schoolAddress");
+  }
+}
+
+void main() {
+  // Creating an object of the Student class
+  var student = Student();
+  student.name = "John";
+  student.age = 20;
+  student.schoolName = "ABC School";
+  student.schoolAddress = "New York";
+  student.display();
+  student.displaySchoolInfo();
+}
+\end{lstlisting}
+\end{center}
+
+Ventajas de la herencia:
+\begin{itemize}
+    \item Promueve la reutilización del código y reduce el código redundante
+    \item Ayuda a diseñar un programa de mejor manera.
+    \item Simplifica y limpia el código, y ahorra tiempo y dinero en mantenimiento.
+    \item Facilita la creación de bibliotecas de clases.
+    \item Puede utilizarse para imponer una interfaz estándar a todas las clases hijas.
+\end{itemize}
+\subsection{Polimorfismo}
+Poli significa muchos y morfo significa formas . El polimorfismo es la capacidad de un objeto para adoptar muchas formas. Como seres humanos, tenemos la capacidad de adoptar muchas formas. Podemos ser estudiantes, profesores, padres, amigos, etc. De manera similar, en la programación orientada a objetos, el polimorfismo es la capacidad de un objeto para adoptar muchas formas.\cite{dartTutorial_generics}
+
+La sobreescritura de métodos es una técnica que permite crear un método en la clase hija con el mismo nombre que el método en la clase padre. El método en la clase hija sobreescribe el método en la clase padre.\cite{dartTutorial_generics}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class ParentClass{
+void functionName(){
+  }
+}
+class ChildClass extends ParentClass{
+@override 
+void functionName(){
+  }
+}
+\end{lstlisting}
+\end{center}
+Ejemplo 1:  Polimorfismo mediante la sobreescritura de métodos en Dart
+
+En el siguiente ejemplo, existe una clase llamada Animal con un método llamado eat() . El método eat() se redefine en la clase hija llamada Dog .
+
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Animal {
+  void eat() {
+    print("Animal is eating");
+  }
+}
+
+class Dog extends Animal {
+  @override
+  void eat() {
+    print("Dog is eating");
+  }
+}
+
+void main() {
+  Animal animal = Animal();
+  animal.eat();
+
+  Dog dog = Dog();
+  dog.eat();
+}
+\end{lstlisting}
+\end{center}
+
+Ventaja de usar polimorfismo:
+
+\begin{enumerate}
+    \item Las subclases pueden anular el comportamiento de la clase padre.
+    \item Nos permite escribir código más flexible y reutilizable.
+    
+\end{enumerate}
+\subsection{Clase abstracta}
+Las clases abstractas son clases que no se pueden inicializar. Se utilizan para definir el comportamiento de una clase que puede ser heredado por otras clases. Una clase abstracta se declara utilizando la palabra clave abstract.\cite{dartTutorial_generics}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+abstract class ClassName {
+  //Body of abstract class
+
+  method1();
+  method2();
+}
+\end{lstlisting}
+\end{center}
+Un método abstracto es un método que se declara sin implementación. Se declara con un punto y coma (;) en lugar del cuerpo del método.\cite{dartTutorial_generics}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+abstract class ClassName {
+  //Body of abstract class
+  method1();
+  method2();
+}
+\end{lstlisting}
+\end{center}
+Las subclases de una clase abstracta deben implementar todos los métodos abstractos de la clase abstracta. Se utiliza para lograr la abstracción en el lenguaje de programación Dart.\cite{dartTutorial_generics}
+
+Ejemplo 1:
+\medskip
+  En el siguiente ejemplo, hay una clase abstracta Vehículo con dos métodos abstractos start() y stop(). Las subclases Auto y Bicicleta implementan los métodos abstractos y los sobrescriben para imprimir el mensaje..\cite{dartTutorial_generics}
+ \medskip
+ \begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+abstract class Vehicle {
+  // Abstract method
+  void start();
+  // Abstract method
+  void stop();
+}
+
+class Car extends Vehicle {
+  // Implementation of start()
+  @override
+  void start() {
+    print('Car started');
+  }
+
+  // Implementation of stop()
+  @override
+  void stop() {
+    print('Car stopped');
+  }
+}
+
+class Bike extends Vehicle {
+  // Implementation of start()
+  @override
+  void start() {
+    print('Bike started');
+  }
+
+  // Implementation of stop()
+  @override
+  void stop() {
+    print('Bike stopped');
+  }
+}
+
+void main() {
+  Car car = Car();
+  car.start();
+  car.stop();
+
+  Bike bike = Bike();
+  bike.start();
+  bike.stop();
+}
+\end{lstlisting}
+\end{center}
+\medskip
+Nota: La clase abstracta se utiliza para definir el comportamiento de una clase que puede ser heredada por otras clases. Se puede definir un método abstracto dentro de una clase abstracta.\cite{dartTutorial_generics}
+
+No se puede crear un objeto de una clase abstracta. Sin embargo, se puede definir un constructor en una clase abstracta. El constructor de una clase abstracta se invoca cuando se crea un objeto de una subclase.\cite{dartTutorial_generics}
+
+Ejemplo 2:
+En el siguiente ejemplo, hay una clase abstracta Bank con un constructor que toma dos parámetros: nombre y tasa. Hay un método abstracto interest(). Las subclases SBI e ICICI implementan el método abstracto y lo sobrescriben para imprimir la tasa de interés.
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+abstract class Bank {
+  String name;
+  double rate;
+
+  // Constructor
+  Bank(this.name, this.rate);
+
+  // Abstract method
+  void interest();
+
+  //Non-Abstract method: It have an implementation
+  void display() {
+    print('Bank Name: $name');
+  }
+}
+
+class SBI extends Bank {
+  // Constructor
+  SBI(String name, double rate) : super(name, rate);
+
+  // Implementation of interest()
+  @override
+  void interest() {
+    print('The rate of interest of SBI is $rate');
+  }
+}
+
+class ICICI extends Bank {
+  // Constructor
+  ICICI(String name, double rate) : super(name, rate);
+
+  // Implementation of interest()
+  @override
+  void interest() {
+    print('The rate of interest of ICICI is $rate');
+  }
+}
+
+void main() {
+  SBI sbi = SBI('SBI', 8.4);
+  ICICI icici = ICICI('ICICI', 7.3);
+
+  sbi.interest();
+  icici.interest();
+  icici.display();
+}
+\end{lstlisting}
+\end{center}
+
+
+
+\subsection{Archivo y dart:io}
+La biblioteca dart:io proporciona API para gestionar archivos, directorios, procesos, sockets, WebSockets y clientes y servidores HTTP. \cite{dart_io_file_class}
+
+En general, la biblioteca dart:io implementa y promueve una API asíncrona. Los métodos síncronos pueden bloquear fácilmente una aplicación, dificultando su escalabilidad. Por lo tanto, la mayoría de las operaciones devuelven resultados mediante objetos Future o Stream, un patrón común en plataformas de servidor modernas como Node.js.\cite{dart_io_file_class}
+
+Los pocos métodos sincrónicos de la biblioteca dart:io están claramente marcados con el sufijo Sync en el nombre del método. No se tratan aquí los métodos sincrónicos.\cite{dart_io_file_class}
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+import 'dart:io';
+\end{lstlisting}
+\end{center}
+
+
+
+A Filecontiene una ruta donde se pueden realizar operaciones. Puedes obtener el directorio padre del archivo usando parent , una propiedad heredada de FileSystemEntity .
+
+Cree un nuevo Fileobjeto con una ruta para acceder al archivo especificado en el sistema de archivos desde su programa.
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+var myFile = File('file.txt');
+\end{lstlisting}
+\end{center}
+La Fileclase contiene métodos para manipular archivos y su contenido. Con los métodos de esta clase, puede abrir y cerrar archivos, leerlos y escribir en ellos, crearlos y eliminarlos, y comprobar su existencia.\cite{dart_io_file_class}
+
+Al leer o escribir un archivo, puede utilizar secuencias (con openRead ), operaciones de acceso aleatorio (con open ) o métodos convenientes como readAsString.\cite{dart_io_file_class}
+
+La mayoría de los métodos de esta clase se ejecutan en pares síncronos y asincrónicos; por ejemplo, readAsString y readAsStringSync . A menos que tenga una razón específica para usar la versión síncrona de un método, prefiera la versión asíncrona para evitar bloquear su programa.
+Si path es un enlace simbólico, en lugar de un archivo, entonces los métodos de Fileoperan en el destino final del enlace, excepto delete y deleteSync , que operan en el enlace.
+\begin{itemize}
+    \item Leer desde un archivo: El siguiente ejemplo de código lee todo el contenido de un archivo como una cadena utilizando el método asincrónico readAsString 
+
+    \begin{center}
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+import 'dart:async';
+import 'dart:io';
+
+void main() {
+  File('file.txt').readAsString().then((String contents) {
+    print(contents);
+  });
+}
+\end{lstlisting}
+\end{center}
+
+Una forma más flexible y útil de leer un archivo es con un Stream . Abra el archivo con openRead , que devuelve un stream que proporciona los datos del archivo como fragmentos de bytes. Lea el stream para procesar el contenido del archivo cuando esté disponible. Puede usar varios transformadores sucesivamente para manipular el contenido del archivo al formato requerido o para prepararlo para la salida.\cite{dart_io_file_class}
+
+Es posible que desee utilizar una secuencia para leer archivos grandes, para manipular los datos con transformadores o para lograr compatibilidad con otra API, como WebSockets .\cite{dart_file_class}
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+import 'dart:io';
+import 'dart:convert';
+import 'dart:async';
+
+void main() async {
+  final file = File('file.txt');
+  Stream<String> lines = file.openRead()
+    .transform(utf8.decoder)       // Decode bytes to UTF-8.
+    .transform(LineSplitter());    // Convert stream to individual lines.
+  try {
+    await for (var line in lines) {
+      print('$line: ${line.length} characters');
+    }
+    print('File is now closed.');
+  } catch (e) {
+    print('Error: $e');
+  }
+}
+\end{lstlisting}
+\end{center}
+\item Escribir en un archivo: Para escribir una cadena en un archivo, utilice el método writeAsString 
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+import 'dart:io';
+
+void main() async {
+  final filename = 'file.txt';
+  var file = await File(filename).writeAsString('some content');
+  // Do something with the file.
+}
+\end{lstlisting}
+\end{center}
+También puedes escribir en un archivo usando un Stream . Abre el archivo con openWrite , que devuelve un IOSink donde puedes escribir datos. Asegúrate de cerrar el IOSink con el método IOSink.close .
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+import 'dart:io';
+
+void main() async {
+  var file = File('file.txt');
+  var sink = file.openWrite();
+  sink.write('FILE ACCESSED ${DateTime.now()}\n');
+  await sink.flush();
+
+  // Close the IOSink to free system resources.
+  await sink.close();
+}
+\end{lstlisting}
+\end{center}
+Para evitar bloqueos involuntarios del programa, varios métodos son asíncronos y devuelven un Future . Por ejemplo, el método length , que obtiene la longitud de un archivo, devuelve un Future . Espere a que el future obtenga el resultado cuando esté listo.
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+import 'dart:io';
+
+void main() async {
+  final file = File('file.txt');
+
+  var length = await file.length();
+  print(length);
+}
+\end{lstlisting}
+\end{center}
+\end{itemize}
+\subsection{Manejo de errores}
+Su código Dart puede generar y capturar excepciones. Las excepciones son errores que indican que ocurrió algo inesperado. Si no se captura la excepción, el aislamiento que la generó se suspende y, por lo general, el aislamiento y su programa se cierran.\cite{dart_error_handling}
+
+A diferencia de Java, todas las excepciones de Dart son excepciones no comprobadas. Los métodos no declaran qué excepciones podrían lanzar, y no es necesario capturar ninguna.\cite{dart_error_handling}
+
+Dart proporciona tipos Exceptiony Error, así como numerosos subtipos predefinidos. Por supuesto, puede definir sus propias excepciones. Sin embargo, los programas Dart pueden lanzar cualquier objeto no nulo como excepción, no solo objetos de excepción y error.\cite{dart_error_handling}
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+throw FormatException('Expected at least 1 section');
+\end{lstlisting}
+\end{center}
+
+Capturar una excepción impide que se propague (a menos que se vuelva a lanzar). Capturar una excepción permite gestionarla:
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+try {
+  breedMoreLlamas();
+} on OutOfLlamasException {
+  buyMoreLlamas();
+}
+\end{lstlisting}
+\end{center}
+Para gestionar código que puede generar más de un tipo de excepción, se pueden especificar varias cláusulas catch. La primera cláusula catch que coincida con el tipo del objeto generado gestiona la excepción. Si la cláusula catch no especifica un tipo, puede gestionar cualquier tipo de objeto generado: \cite{dart_error_handling}
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+try {
+  breedMoreLlamas();
+} on OutOfLlamasException {
+  // A specific exception
+  buyMoreLlamas();
+} on Exception catch (e) {
+  // Anything else that is an exception
+  print('Unknown exception: $e');
+} catch (e) {
+  // No specified type, handles all
+  print('Something really unknown: $e');
+}
+\end{lstlisting}
+\end{center}
+
+Como se muestra en el código anterior, puede usar uno de los dos on, catcho ambos. Úselo oncuando necesite especificar el tipo de excepción. Úselo catchcuando su manejador de excepciones necesite el objeto de excepción.\cite{dart_error_handling}
+
+Puedes especificar uno o dos parámetros para catch(). El primero es la excepción lanzada y el segundo es el seguimiento de la pila (un StackTraceobjeto).
+\subsection{Programación asincrónica: futuros, asíncrono, espera}
+
+Las operaciones asincrónicas permiten que su programa complete su trabajo mientras espera que finalice otra operación. Estas son algunas operaciones asincrónicas comunes:
+
+Obteniendo datos a través de una red.
+Escribiendo en una base de datos.
+Leyendo datos de un archivo.
+Estos cálculos asincrónicos suelen proporcionar su resultado como un Futureo, si el resultado tiene varias partes, como un Stream. Estos cálculos introducen asincronía en un programa. Para adaptar esta asincronía inicial, otras funciones Dart simples también deben volverse asincrónicas.
+
+Para interactuar con estos resultados asincrónicos, puede usar las palabras clave " asyncy await". La mayoría de las funciones asincrónicas son simplemente funciones asíncronas de Dart que dependen, posiblemente en el fondo, de un cálculo inherentemente asincrónico.
+\subsubsection{Future}
+Un futuro (con "f" minúscula) es una instancia de la clase Futuro (con "F" mayúscula). Un futuro representa el resultado de una operación asincrónica y puede tener dos estados: incompleto o completo.
+
+Incompleto
+
+Al llamar a una función asincrónica, esta devuelve un futuro incompleto. Este futuro espera a que la operación asincrónica de la función finalice o arroje un error.
+
+Terminado
+
+Si la operación asincrónica se realiza correctamente, el futuro se completa con un valor. De lo contrario, se completa con un error.
+
+Un futuro de tipo FutureTse completa con un valor de tipo T. Por ejemplo, un futuro con tipo FutureStringproduce un valor de cadena. Si un futuro no produce un valor utilizable, entonces su tipo es Futurevoid.
+
+Completando con un error
+#
+Si la operación asincrónica realizada por la función falla por cualquier motivo, el futuro se completa con un error.
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+Future<void> fetchUserOrder() {
+  // Imagine that this function is fetching user info from another service or database.
+  return Future.delayed(const Duration(seconds: 2), () => print('Large Latte'));
+}
+
+void main() {
+  fetchUserOrder();
+  print('Fetching user order...');
+}
+\end{lstlisting}
+\end{center}
+\subsubsection{Trabajar con futuros: async y await}
+Las palabras clave " asyncy await" proporcionan una forma declarativa de definir funciones asincrónicas y utilizar sus resultados. Recuerde estas dos pautas básicas al usar " asyncy await":
+\cite{dart_async_await}
+Para definir una función asíncrona, agregue asyncantes del cuerpo de la función:
+La awaitpalabra clave sólo funciona en asyncfunciones.\cite{dart_async_await}
+A continuación se muestra un ejemplo que convierte main()de una función sincrónica a una asincrónica.\cite{dart_async_await}
+
+Primero, agregue la asyncpalabra clave antes del cuerpo de la función:
+
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+void main() async { ··· }
+\end{lstlisting}
+\end{center}
+Si la función tiene un tipo de retorno declarado, actualícelo a FutureT, donde Tes el tipo del valor que devuelve la función. Si la función no devuelve un valor explícitamente, el tipo de retorno es Futurevoid:
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+Future<void> main() async { ··· }
+\end{lstlisting}
+\end{center}
+Ejemplo: funciones sincrónicas
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+String createOrderMessage() {
+  var order = fetchUserOrder();
+  return 'Your order is: $order';
+}
+
+Future<String> fetchUserOrder() =>
+    // Imagine that this function is
+    // more complex and slow.
+    Future.delayed(const Duration(seconds: 2), () => 'Large Latte');
+
+void main() {
+  print('Fetching user order...');
+  print(createOrderMessage());
+}
+\end{lstlisting}
+\end{center}
+Ejemplo: funciones asincrónicas
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+Future<String> createOrderMessage() async {
+  var order = await fetchUserOrder();
+  return 'Your order is: $order';
+}
+
+Future<String> fetchUserOrder() =>
+    // Imagine that this function is
+    // more complex and slow.
+    Future.delayed(const Duration(seconds: 2), () => 'Large Latte');
+
+Future<void> main() async {
+  print('Fetching user order...');
+  print(await createOrderMessage());
+}
+\end{lstlisting}
+\end{center}
