@@ -1,14 +1,66 @@
+
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{pdfpages}
+\usepackage[spanish]{babel}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage[left=1.3in,right=1.3in,top=1.3in,bottom=1.3in]{geometry}
+\usepackage{parskip}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage[ruled,vlined,spanish]{algorithm2e}
 
-\title{practica11,12,13}
 
-\date{November 2025}
+%Para darle color a los códigos
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolor}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{estilos}{
+backgroundcolor=\color{backcolor},
+commentstyle=\color{codegreen},
+keywordstyle=\color{magenta},
+numberstyle=\tiny\color{codegray},
+stringstyle=\color{codepurple},
+basicstyle=\ttfamily\footnotesize,
+%para que no se salga del recuadro gris
+breakatwhitespace=false,
+breaklines=true,
+captionpos=b,
+keepspaces=true,
+numbers=left,
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+tabsize=2
+}
+
 
 \begin{document}
 
-\maketitle
+\tableofcontents
+\newpage
+\section{Marco téorico}
 
-\section{Introduction}
-\input{Practica 11,12,13/dearrollo}
+\input{Practica 11,12,13/marcoteorico}
+
+
+\newpage
+
+\addcontentsline{toc}{section}{Referencias}
+\begin{thebibliography}{9} 
+
+% [1] Cita de DataCamp (la que ya tenías)
+\bibitem{ref_datacamp} DataCamp. Clases y objetos en Java. (2025). [Online; accedido: 16 de septiembre de 2025]. Disponible en: \url{https://www.datacamp.com/es/doc/java/classes-and-objects}
+
+% [2] NUEVA CITA de Flutter API Documentation
+\bibitem{ref_file_class} Flutter API Documentation. File Class in Dart. (2025). [Online; consultado el 7 de noviembre de 2025]. Disponible en: \url{https://api.flutter.dev/flutter/dart-io/File-class.html}
+
+% Agrega aquí tus otras referencias manuales si las tienes...
+
+\end{thebibliography}
 \end{document}
