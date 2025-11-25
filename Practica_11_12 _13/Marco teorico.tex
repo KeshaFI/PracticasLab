@@ -989,7 +989,7 @@ Primero, agregue la asyncpalabra clave antes del cuerpo de la función:
     % xleftmargin=0.1\textwidth,
     % xrightmargin=0.1\textwidth
 ]
-void main() async { ··· }
+void main() async {}
 \end{lstlisting}
 \end{center}
 Si la función tiene un tipo de retorno declarado, actualícelo a FutureT, donde Tes el tipo del valor que devuelve la función. Si la función no devuelve un valor explícitamente, el tipo de retorno es Futurevoid:
@@ -1002,7 +1002,7 @@ Si la función tiene un tipo de retorno declarado, actualícelo a FutureT, donde
     % xleftmargin=0.1\textwidth,
     % xrightmargin=0.1\textwidth
 ]
-Future<void> main() async { ··· }
+Future<void> main() async { }
 \end{lstlisting}
 \end{center}
 Ejemplo: funciones sincrónicas
