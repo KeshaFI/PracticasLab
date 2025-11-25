@@ -1,0 +1,105 @@
+A continuación se pasará a explicar detalladamente cada parte fundamental de los temas en el siguiente orden:
+
+\subsection{Archivos}
+El programa proporcionado presenta un menú interactivo que permite al usuario realizar tres operaciones fundamentales sobre archivos de texto: crear y escribir, leer, y sobrescribir. Cada una de estas acciones está encapsulada en funciones específicas que reflejan buenas prácticas de modularidad y control de flujo.
+
+\begin{itemize}
+    \item 1.Crear y escribir archivos:
+    La función crearYEscribirArchivo() permite al usuario crear un archivo nuevo y guardar texto línea por línea. Este proceso refleja el concepto de persistencia de datos y buffer manual.
+    \begin{center}
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    File archivo = File(nombreArchivo);
+    archivo.writeAsStringSync(lineas.join('\n'));
+
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item Se crea una instancia de File, que representa un archivo en el sistema.
+
+        \item writeAsStringSync escribe el contenido de forma sincrónica, garantizando que el archivo se guarde antes de continuar.
+
+        \item El uso de lineas.join(\verb|'\n'|) simula un buffer: se acumulan las líneas en memoria antes de escribirlas.
+    \end{itemize}
+    \item 2.Leer archivos existentes: La función \verb|_|leerArchivoExistente() permite recuperar el contenido de un archivo previamente creado. Aquí se aplica el concepto de extracción de datos persistentes.
+    \begin{center}
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    if (!archivo.existsSync()) {
+      print('\nEl archivo no existe.\n');
+      return;
+    }
+    
+    String contenido = archivo.readAsStringSync();
+
+
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item Se verifica la existencia del archivo con existsSync(), lo que evita errores de lectura.
+        \item readAsStringSync() carga todo el contenido en una sola operación, útil para archivos pequeños.
+    \end{itemize}
+    \item 3.Sobrescribir archivos: La función \verb|_|sobrescribirArchivo() introduce el concepto de modificación destructiva. Antes de sobrescribir, se solicita confirmación explícita del usuario.
+    \begin{center}
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    if (confirmacion == null || confirmacion.toUpperCase() != 'SI') {
+    print('\nOperacion cancelada.\n');
+    return;
+    }
+
+
+
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item Se protege la integridad del archivo solicitando confirmación.
+        \item Si el usuario acepta, se recopila nuevo contenido y se usa writeAsStringSync para reemplazar el archivo.
+    \end{itemize}
+    \item Conexión entre funciones: Todas las funciones comparten un patrón de interacción:
+    \begin{center}
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+  String? entrada = stdin.readLineSync();
+
+
+
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item Se usa entrada estándar para interactuar con el usuario, lo que permite construir un flujo conversacional.
+        \item Este patrón refuerza la idea de que el usuario es parte activa del proceso de persistencia.
+    \end{itemize}
+\end{itemize}
+El diagrama estático que representa el código Archivos es el siguiente:
+\begin{figure}[H] % El entorno figure permite manejar la posición
+    \centering % Centra la imagen
+    \includegraphics[width=0.4\textwidth]{archivoestatico.png} % Ajusta el tamaño y coloca el nombre del archivo
+    \caption{Diagrama estático/ ARCHIVOS} % Texto debajo de la imagen
+    \label{fig:ejemplo} % Etiqueta para referencias cruzadas
+\end{figure}
+El diagrama estático representa la estructura del programa en Dart que gestiona operaciones con archivos mediante un menú interactivo; la función principal main() actúa como punto de entrada y dirige el flujo hacia tres funciones privadas agrupadas conceptualmente en la clase File menu: \verb|_|crearYEscribirArchivo(), \verb|_|leerArchivoExistente() y \verb|_|sobrescribirArchivo(), cada una encargada de una operación específica sobre archivos de texto; estas funciones interactúan directamente con la clase File de Dart, utilizando sus métodos writeAsStringSync(), readAsStringSync() y existsSync() para realizar escritura, lectura y verificación de archivos de forma sincrónica,
