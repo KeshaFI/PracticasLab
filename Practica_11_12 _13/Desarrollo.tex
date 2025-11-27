@@ -99,7 +99,30 @@ El diagrama estático que representa el código Archivos es el siguiente:
 \begin{figure}[H] % El entorno figure permite manejar la posición
     \centering % Centra la imagen
     \includegraphics[width=0.4\textwidth]{archivoestatico.png} % Ajusta el tamaño y coloca el nombre del archivo
-    \caption{Diagrama estático/ ARCHIVOS} % Texto debajo de la imagen
+    \caption{Diagrama estático / ARCHIVOS} % Texto debajo de la imagen
     \label{fig:ejemplo} % Etiqueta para referencias cruzadas
 \end{figure}
 El diagrama estático representa la estructura del programa en Dart que gestiona operaciones con archivos mediante un menú interactivo; la función principal main() actúa como punto de entrada y dirige el flujo hacia tres funciones privadas agrupadas conceptualmente en la clase File menu: \verb|_|crearYEscribirArchivo(), \verb|_|leerArchivoExistente() y \verb|_|sobrescribirArchivo(), cada una encargada de una operación específica sobre archivos de texto; estas funciones interactúan directamente con la clase File de Dart, utilizando sus métodos writeAsStringSync(), readAsStringSync() y existsSync() para realizar escritura, lectura y verificación de archivos de forma sincrónica,
+
+El diagrama dinámico que representa el código Archivos es el siguiente:
+
+\begin{figure}[H] % El entorno figure permite manejar la posición
+    \centering % Centra la imagen
+    \includegraphics[width=0.7\textwidth]{DiagramaDinamicoArchivos.png} % Ajusta el tamaño y coloca el nombre del archivo
+    \caption{Diagrama dinámico / ARCHIVOS} % Texto debajo de la imagen
+    \label{fig:ejemplo} % Etiqueta para referencias cruzadas
+\end{figure}
+
+El diagrama muestra cómo interactúa el usuario con tu programa, y qué métodos se ejecutan dependiendo de la opción que elija en el menú.
+
+Hay 4 participantes:
+\begin{itemize}
+    \item Usuario (main) - es quien elige la opción.
+    \item crearYEscribirArchivo()
+    \item leerArchivoExistente()
+    \item sobrescribirArchivo()
+\end{itemize}
+
+Cada uno representa un flujo posible cuando el usuario selecciona del 1 al 4.
+
+\subsection{Hilos}
