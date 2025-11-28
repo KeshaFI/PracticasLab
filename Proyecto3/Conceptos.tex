@@ -1,0 +1,731 @@
+En este apartado se explicaran los conceptos o las herramientas que fueron utilizadas y como funcionan.
+
+\subsection{Clases y objetos}
+Dart es un lenguaje orientado a objetos con clases y herencia basada en mixins. Cada objeto es una instancia de una clase, y todas las clases, excepto Null, descienden de Object. La herencia basada en mixins significa que, aunque cada clase (excepto la clase superior, ¿Object?) tiene exactamente una superclase, el cuerpo de una clase se puede reutilizar en múltiples jerarquías de clases. Los métodos de extensión son una forma de añadir funcionalidad a una clase sin cambiarla ni crear una subclase. Los modificadores de clase permiten controlar cómo las bibliotecas pueden subtipificar una clase.\cite{dart_language}
+
+En la programación orientada a objetos , un objeto es una unidad autocontenida de código y datos. Los objetos se crean a partir de plantillas llamadas clases. Un objeto se compone de propiedades (variables) y métodos (funciones). Un objeto es una instancia de una clase.\cite{dart_language}
+\begin{itemize}
+    \item Utilizando miembros de clase:
+    
+    Los objetos tienen miembros que consisten en funciones y datos ( métodos y variables de instancia , respectivamente). Al llamar a un método, se invoca sobre un objeto: el método tiene acceso a las funciones y datos de ese objeto.
+    Utilice un punto (.) para referirse a una variable de instancia o método:
+
+    
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+var p = Point(2, 2);
+
+// Get the value of y.
+assert(p.y == 2);
+
+// Invoke distanceTo() on p.
+double distance = p.distanceTo(Point(4, 4));
+\end{lstlisting}
+\end{center}
+Utilice ?.en su lugar .para evitar una excepción cuando el operando más a la izquierda sea nulo:
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+// If p is non-null, set a variable equal to its y value.
+var a = p?.y;
+\end{lstlisting}
+\end{center}
+\item Utilizando constructores
+Puedes crear un objeto usando un constructor . Los nombres de los constructores pueden ser `init` ClassNameo `init` . Por ejemplo, el siguiente código crea objetos usando los constructores `init` y `init`: ClassName.identifierPointPoint()Point.fromJson().\cite{dart_language}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+var p1 = Point(2, 2);
+var p2 = Point.fromJson({'x': 1, 'y': 2});
+\end{lstlisting}
+\end{center}
+El siguiente código tiene el mismo efecto, pero utiliza la newpalabra clave opcional antes del nombre del constructor:
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+var p1 = new Point(2, 2);
+var p2 = new Point.fromJson({'x': 1, 'y': 2});
+\end{lstlisting}
+\end{center}
+\item Variables y métodos de clase
+
+utilice la static palabra clave para implementar variables y métodos de toda la clase.
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Queue {
+  static const initialCapacity = 16;
+  
+}
+
+void main() {
+  assert(Queue.initialCapacity == 16);
+}
+\end{lstlisting}
+\end{center}
+\item métodos estáticos
+
+Los métodos estáticos (métodos de clase) no operan sobre una instancia y, por lo tanto, no tienen acceso a ella this. Sin embargo, sí tienen acceso a las variables estáticas. Como muestra el siguiente ejemplo, los métodos estáticos se invocan directamente en una clase.\cite{dart_language}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+import 'dart:math';
+
+class Point {
+  double x, y;
+  Point(this.x, this.y);
+
+  static double distanceBetween(Point a, Point b) {
+    var dx = a.x - b.x;
+    var dy = a.y - b.y;
+    return sqrt(dx * dx + dy * dy);
+  }
+}
+
+void main() {
+  var a = Point(2, 2);
+  var b = Point(4, 4);
+  var distance = Point.distanceBetween(a, b);
+  assert(2.8 < distance && distance < 2.9);
+  print(distance);
+}
+\end{lstlisting}
+\end{center}
+\end{itemize}
+
+\subsection{Constructores}
+Los constructores son funciones especiales que crean instancias de clases.
+
+Dart implementa muchos tipos de constructores. Excepto los constructores por defecto, estas funciones utilizan el mismo nombre que su clase.\cite{dart_language}
+\medskip
+\begin{enumerate}
+    \item constructores generativos
+Para instanciar una clase, utilice un constructor generativo.
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Point {
+  // Instance variables to hold the coordinates of the point.
+  double x;
+  double y;
+
+  // Generative constructor with initializing formal parameters:
+  Point(this.x, this.y);
+}
+\end{lstlisting}
+\end{center}
+\item Constructores por defecto
+
+Si no declaras un constructor, Dart utiliza el constructor predeterminado. El constructor predeterminado es un constructor generativo sin argumentos ni nombre.\cite{dart_language}
+\item Constructores con nombre
+
+Utilice un constructor con nombre para implementar múltiples constructores para una clase o para proporcionar mayor claridad:
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+vconst double xOrigin = 0;
+const double yOrigin = 0;
+
+class Point {
+  final double x;
+  final double y;
+
+  // Sets the x and y instance variables
+  // before the constructor body runs.
+  Point(this.x, this.y);
+
+  // Named constructor
+  Point.origin() : x = xOrigin, y = yOrigin;
+}
+\end{lstlisting}
+\end{center}
+Una subclase no hereda el constructor con nombre de la superclase. Para crear una subclase con un constructor con nombre definido en la superclase, implemente dicho constructor en la subclase.
+\item Constructores constantes
+
+Si tu clase produce objetos que no cambian, haz que estos objetos sean constantes en tiempo de compilación. Para ello, define un constconstructor con todas las variables de instancia establecidas como final.\cite{dart_language}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class ImmutablePoint {
+  static const ImmutablePoint origin = ImmutablePoint(0, 0);
+
+  final double x, y;
+
+  const ImmutablePoint(this.x, this.y);
+}
+\end{lstlisting}
+\end{center}
+Los constructores constantes no siempre crean constantes. Pueden invocarse fuera de un constcontexto. Para obtener más información, consulte la sección sobre el uso de constructores .
+\item Constructores de redireccionamiento
+
+Un constructor puede redirigir a otro constructor de la misma clase. Un constructor que redirige tiene un cuerpo vacío. El constructor utiliza thisen lugar del nombre de la clase después de dos puntos ( :).
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Point {
+  double x, y;
+
+  // The main constructor for this class.
+  Point(this.x, this.y);
+
+  // Delegates to the main constructor.
+  Point.alongXAxis(double x) : this(x, 0);
+}
+\end{lstlisting}
+\end{center}
+\end{enumerate}
+\subsection{Encapsulacion, Getters y Setters}
+
+En Dart, la encapsulación consiste en ocultar datos dentro de una biblioteca, protegiéndolos de factores externos. Esto ayuda a controlar el programa y evita que se vuelva demasiado complejo.\cite{dartTutorial_generics}
+
+La encapsulación se puede lograr mediante:
+\begin{itemize}
+    \item Declarar las propiedades de la clase como privadas utilizando guion bajo () .
+    \item Proporcionar métodos públicos getter y setter para acceder y actualizar el valor de la propiedad privada.
+\end{itemize}
+Nota:
+Dart no admite palabras clave como `public` , `private` y `protected. Dart utiliza ```\textbf{\_}'' (guion bajo) para indicar que una propiedad o método es privado.
+Los métodos getter y setter se utilizan para acceder y actualizar el valor de una propiedad privada. Los métodos getter se utilizan para acceder al valor de una propiedad privada. Los métodos setter se utilizan para actualizar el valor de una propiedad privada.\cite{dartTutorial_generics}
+
+Ejemplo 1:
+En este ejemplo, crearemos una clase llamada \texttt{Employee}. Esta clase tendrá dos propiedades privadas: $\mathbf{\_}$id y $\mathbf{\_}$name. También crearemos dos métodos públicos, \texttt{getId()} y \texttt{getName()}, para acceder a las propiedades privadas. Asimismo, crearemos dos métodos públicos, \texttt{setId()} y \texttt{setName()}, para actualizar las propiedades privadas.\cite{dartTutorial_generics}
+
+
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Employee {
+  // Private properties
+  int? _id;
+  String? _name;
+
+// Getter method to access private property _id
+  int getId() {
+    return _id!;
+  }
+// Getter method to access private property _name
+  String getName() {
+    return _name!;
+  }
+// Setter method to update private property _id
+  void setId(int id) {
+    this._id = id;
+  }
+// Setter method to update private property _name
+  void setName(String name) {
+    this._name = name;
+  }
+  
+}
+
+void main() {
+  // Create an object of Employee class
+  Employee emp = new Employee();
+  // setting values to the object using setter
+  emp.setId(1);
+  emp.setName("John");
+
+  // Retrieve the values of the object using getter
+  print("Id: ${emp.getId()}");
+  print("Name: ${emp.getName()}");
+}
+\end{lstlisting}
+\end{center}
+En Dart, puedes controlar el acceso a las propiedades e implementar la encapsulación mediante el uso de propiedades de solo lectura. Para ello, añade la palabra clave ` final` antes de la declaración de la propiedad. De esta forma, solo podrás acceder a su valor, pero no modificarlo.\cite{dartTutorial_generics}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Student {
+  final _schoolname = "ABC School";
+
+  String getSchoolName() {
+    return _schoolname;
+  }
+}
+
+void main() {
+  var student = Student();
+  print(student.getSchoolName());
+  // This is not possible
+  //student._schoolname = "XYZ School";
+}
+\end{lstlisting}
+\end{center}
+
+Puedes crear métodos getter y setter usando las palabras clave \texttt{get} y \texttt{set}. En el siguiente ejemplo, hemos creado una clase llamada \texttt{Vehicle}. Esta clase tiene dos propiedades privadas: $\mathbf{\_}$model y $\mathbf{\_}$year. También hemos creado dos métodos getter y setter para cada propiedad. Estos métodos se llaman \texttt{model} y \texttt{year}, y se utilizan para acceder y actualizar el valor de las propiedades privadas.\cite{dartTutorial_generics}
+\medskip
+
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Vehicle {
+  String _model;
+  int _year;
+
+  // Getter method
+  String get model => _model;
+
+  // Setter method
+  set model(String model) => _model = model;
+
+  // Getter method
+  int get year => _year;
+
+  // Setter method
+  set year(int year) => _year = year;
+}
+
+void main() {
+  var vehicle = Vehicle();
+  vehicle.model = "Toyota";
+  vehicle.year = 2019;
+  print(vehicle.model);
+  print(vehicle.year);
+}
+\end{lstlisting}
+\end{center}
+¿Por qué es importante la encapsulación?
+\begin{enumerate}
+    \item Ocultación de datos : La encapsulación oculta los datos del exterior. Impide que el código fuera de la clase acceda a ellos. Esto se conoce como ocultación de datos.\cite{dartTutorial_generics}
+    \item Facilidad de prueba : La encapsulación permite probar la clase de forma aislada. Esto permite probar la clase sin necesidad de probar el código fuera de ella.\cite{dartTutorial_generics}
+    \item Flexibilidad : La encapsulación permite cambiar la implementación de la clase sin afectar al código que se encuentra fuera de la clase.\cite{dartTutorial_generics}
+    \item Seguridad : La encapsulación permite restringir el acceso a los miembros de la clase. Esto permite limitar el acceso a los miembros de la clase desde el código externo a la biblioteca.\cite{dartTutorial_generics}
+
+
+\end{enumerate}
+con todo lo anterior la aplicacion de estos conceptos para el proyecto en cuestion se observa de la siguiente manera:
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Pokemon {
+  String nombre;
+  TipoPokemon tipo;
+  int hp;
+  int velocidad;
+  List<Ataque> ataques;
+  
+  String imagePath;
+
+}
+\end{lstlisting}
+\end{center}
+
+
+\subsection{Enum}
+En Dart, los enums extienden de la clase Enum, y nos sirven para agrupar conjuntos de valores como veremos más adelante.\cite{dart_enums_medium}
+
+para declarar una enumeración simple, debemos usar la palabra clave enum el nombre debe empezar con mayúscula y allí seguido una lista de valores a enumerar.\cite{dart_enums_medium}
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+enum Color { red, greeen, blue }
+enum DayOfWeek {
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday
+}
+
+\end{lstlisting}
+\end{center}
+Dart también permite en las clases de enums declarar atributos, funciones y constructores.
+
+Para declarar enums mejorados, se usa de la misma forma que las clases normales, con algunas particularidades:
+\begin{itemize}
+    \item las variables o atributos deben ser final.
+    \item Todos los constructores deben ser constantes.
+    \item Enum se extiende automáticamente.
+    \item No se pueden crear variables con el nombre values porque entra en conflicto con la propiedad de los enums.
+    \item Todos los casos de enums deben ser declarados al principio.
+\end{itemize}
+
+en el proyecto:
+ \begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+enum TipoPokemon {
+  FUEGO,
+  AGUA,
+  PLANTA,
+  ELECTRICO,
+  ROCA,
+  NORMAL,
+  LUCHA,
+  VENENO,
+  TIERRA,
+  VOLADOR,
+  PSIQUICO,
+  BICHO,
+  FANTASMA,
+  DRAGON,
+  DARK,
+  STEEL 
+}
+\end{lstlisting}
+\end{center}
+
+ \begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+ var lanzallamas = 
+ Ataque(nombre: 'Lanzallamas', tipo: TipoPokemon.FUEGO, poder: 90);
+
+ var placaje = 
+ Ataque(nombre: 'Placaje', tipo: TipoPokemon.NORMAL, poder: 40); 
+ var pistolaAgua =
+ Ataque(nombre: 'Pistola Agua', tipo: TipoPokemon.AGUA, poder: 40);
+\end{lstlisting}
+\end{center}
+\subsection{Colecciones}
+En un mapa, cada elemento es un par clave-valor. Cada clave dentro de un par está asociada a un valor, y tanto las claves como los valores pueden ser de cualquier tipo de objeto. Cada clave solo puede aparecer una vez, aunque el mismo valor puede estar asociado a varias claves diferentes. La compatibilidad de Dart con los mapas se proporciona mediante literales de mapa y el Map tipo.\cite{dart_collections}
+
+para el proyecto:
+ \begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+ const Map<TipoPokemon, Map<TipoPokemon, double>> mapaDeTipos = 
+\end{lstlisting}
+\end{center}
+
+
+Quizás la colección más común en casi todos los lenguajes de programación sea el array , o grupo ordenado de objetos. En Dart, los arrays son Listobjetos, por lo que la mayoría de la gente los llama simplemente listas .\cite{dart_collections}
+
+Las literales de lista de Dart se representan mediante una lista de elementos separados por comas y encerrados entre corchetes ( []). Cada elemento suele ser una expresión. A continuación, se muestra una lista de Dart sencilla:
+
+Las listas utilizan indexación basada en cero, donde 0 es el índice del primer elemento y 0 list.length - 1es el índice del último. Puede obtener la longitud de una lista mediante la .lengthpropiedad y acceder a sus elementos mediante el operador de subíndice ( []):
+
+ \begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+ List<String> battleLog = ['¡La batalla ha comenzado!'];
+\end{lstlisting}
+\end{center}
+
+\subsection{Widgets }
+La Interfaz de Usuario en Flutter, está compuesta de Widgets. Los Widgets en Flutter se construyen utilizando un Framework moderno inspirado en React. Casi todo en Flutter está compuesto de Widgets. Los Widgets describen como sería su vista dado una configuración y estado actual. Cuando el estado cambia, el Widget se reconstruye.\cite{flutter_widgets_basicos}
+
+Los Widgets son subclases de StatelessWidget o StatefulWidget. Todo depende de si se quiere guardar el estado o no del widget. Todos los widgets deben implementar la función build(), dentro de este se va armando la estructura necesaria para el widget requerido. El StatelessWidget se utiliza cuando no es necesario conservar el estado del widget, para guardar el estado o alguna otra característica de un widget es recomendable usar StatefulWidget o algún manejador de estados.\cite{flutter_widgets_basicos}
+
+Widgets básicos
+
+\begin{itemize}
+    \item Text: Es un widget que permite crear textos con estilos personalizados.
+    \item Row: Es un widget que permite tener un diseño flexible y tener widgets hijos en un conjunto horizontal (Fila).
+    \item  Column: Es un widget al igual que el Row, es de diseño flexible y permite tener widgets hijos en un conjunto vertical (Columna).
+    \item Stack: El widget Stack permite colocar widgets uno encima de otro. Es un widget que posiciona a sus hijos en relación con los bordes de su caja. Aquí se puede utilizar otro widget Positioned que se encarga de controlar en dónde se van a ubicar los hijos de Stack.
+    \item Container: El widget Container permite crear un elemento rectangular, el cual se puede decorar con estilos, el fondo, sombras y formas con otro widget BoxDecoration. El widget BoxDecoration básicamente es un widget que nos permite pintar o dibujar una caja en blanco a nuestra necesidad.
+\end{itemize}
+
+En el proyecto
+ \begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+return Scaffold(
+      appBar: AppBar(
+        title: const Text('Batalla Pokémon'),
+      ),
+
+
+\end{lstlisting}
+\end{center}
+
+ \begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+Widget _buildAttackMenu() {
+
+    //Comprueba si la batalla termina
+    bool batallaTerminada = (pokemonUsuario.hp == 0 || pokemonRival.hp == 0);
+    //Obtiene los ataques de nuestro Pokémon
+    List<Ataque> ataques = pokemonUsuario.ataques;
+
+    //Crea una lista de Widgets (botones)
+    List<Widget> botonesDeAtaque = [];
+
+    for (var ataque in ataques) {
+      botonesDeAtaque.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4.0),
+          child: ElevatedButton(
+            //Si la batalla terminó, onPressed es null 
+            onPressed: batallaTerminada
+                ? null
+                : () {
+                    _atacar(ataque);
+                  },
+            child: Text('${ataque.nombre} (${ataque.tipo.name})'),
+          ),
+        ),
+      );
+    }
+
+
+
+\end{lstlisting}
+\end{center}
+\subsection{Polimorfismo}
+Poli significa muchos y morfo significa formas . El polimorfismo es la capacidad de un objeto para adoptar muchas formas. Como seres humanos, tenemos la capacidad de adoptar muchas formas. Podemos ser estudiantes, profesores, padres, amigos, etc. De manera similar, en la programación orientada a objetos, el polimorfismo es la capacidad de un objeto para adoptar muchas formas.\cite{dartTutorial_generics}
+
+La sobreescritura de métodos es una técnica que permite crear un método en la clase hija con el mismo nombre que el método en la clase padre. El método en la clase hija sobreescribe el método en la clase padre.\cite{dartTutorial_generics}
+\medskip
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class ParentClass{
+void functionName(){
+  }
+}
+class ChildClass extends ParentClass{
+@override 
+void functionName(){
+  }
+}
+\end{lstlisting}
+\end{center}
+Ejemplo 1:  Polimorfismo mediante la sobreescritura de métodos en Dart
+
+En el siguiente ejemplo, existe una clase llamada Animal con un método llamado eat() . El método eat() se redefine en la clase hija llamada Dog .
+
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+class Animal {
+  void eat() {
+    print("Animal is eating");
+  }
+}
+
+class Dog extends Animal {
+  @override
+  void eat() {
+    print("Dog is eating");
+  }
+}
+
+void main() {
+  Animal animal = Animal();
+  animal.eat();
+
+  Dog dog = Dog();
+  dog.eat();
+}
+\end{lstlisting}
+\end{center}
+
+Ventaja de usar polimorfismo:
+
+\begin{enumerate}
+    \item Las subclases pueden anular el comportamiento de la clase padre.
+    \item Nos permite escribir código más flexible y reutilizable.
+    
+\end{enumerate}
+\subsection{Null Safety}
+La seguridad nula evita errores que resultan del acceso no intencional a las variables establecidas en null.
+Por ejemplo, si un método espera un entero pero recibe null, la aplicación genera un error de ejecución. Este tipo de error, un error de desreferencia nula, puede ser difícil de depurar.
+
+Con seguridad nula sólida, todas las variables requieren un valor. Esto significa que Dart considera que todas las variables no aceptan valores nulos . Solo se pueden asignar valores del tipo declarado, como int i=42. Nunca se puede asignar un valor de nulla los tipos de variable predeterminados. Para especificar que un tipo de variable puede tener un nullvalor, agregue un ? después de la anotación de tipo: int? i. Estos tipos específicos pueden contener un valor de null o un valor del tipo definido.
+
+La seguridad de nulos convierte los posibles errores de ejecución en errores de análisis en tiempo de edición . Con la seguridad de nulos, el analizador y los compiladores de Dart detectan si una variable no nula presenta alguna de las siguientes características:
+
+No se ha inicializado con un valor distinto de nulo
+Se le ha asignado un nullvalor.
+
+
+Dart admite la seguridad nula utilizando los siguientes dos principios de diseño básicos:
+
+ \begin{itemize}
+     \item No nulo por defecto: A menos que se indique explícitamente a Dart que una variable puede ser nula, se considera no nula. Esta opción predeterminada se eligió después de que una investigación revelara que la opción no nula era, con diferencia, la más común en las API.
+     \item Totalmente sano: La seguridad nula de Dart es sólida. Si el sistema de tipos determina que una variable o expresión tiene un tipo no nulo, se garantiza que nunca podrá evaluarse nullen tiempo de ejecución.
+ \end{itemize}
+
+ En el codigo:
+ 
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+ late Pokemon pokemonUsuario;
+  late Pokemon pokemonRival;
+  late Batalla batalla;
+
+\end{lstlisting}
+\end{center}
+
+Con setters que aceptan solo valores no nulos:
+\begin{center}
+\begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+]
+pokemonUsuario = Pokemon(
+      nombre: 'Charizard',
+      tipo: TipoPokemon.FUEGO,
+      hp: 78,
+      velocidad: 100,
+      ataques: [lanzallamas, placaje],
+      //ruta de pubspec.yaml
+      imagePath: 'assets/imagenes/charizard.png', 
+    );
+
+\end{lstlisting}
+\end{center}
+
