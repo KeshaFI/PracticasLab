@@ -126,3 +126,202 @@ Hay 4 participantes:
 Cada uno representa un flujo posible cuando el usuario selecciona del 1 al 4.
 
 \subsection{Hilos}
+
+Los programas proporcionados nos permiten comprender e ilustrar funciones basicas de la programación concurrente mediante hilos (threads) en Dart.
+\begin{itemize}
+    \item Future.delayed: 
+    Esta función indica que una tarea se ejecutará después de un retraso específico, simulando operaciones asincrónicas.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    Future.delayed(Duration(seconds: 2), () {
+      print("Tarea asíncrona completada");
+    });
+
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item Duration especifica el tiempo de espera antes de ejecutar la función.
+        \item La función anónima dentro de Future.delayed se ejecuta después del retraso, demostrando la naturaleza no bloqueante de las operaciones asincrónicas.
+    \end{itemize}
+    \item await:
+    La palabra clave await se utiliza para esperar la finalización de una operación asincrónica antes de continuar con la ejecución del código.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    await Future.delayed(Duration(seconds: 2));
+    print("Tarea completada con await");
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item Aquí, el programa se pausa en la línea await hasta que la operación asincrónica (Future.delayed) se complete.
+        \item Esto permite escribir código que parece secuencial, pero que en realidad maneja operaciones asincrónicas de manera eficiente.
+    \end{itemize}
+    \item recievePort y sendPort:
+    Estos son mecanismos de comunicación entre hilos en Dart, permitiendo el intercambio de mensajes entre diferentes Isolates (hilos independientes).
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    void tarea(SendPort port){
+        port.send("Hola desde otro isolate");
+    }
+
+    void main() async {
+    final receivePort = ReceivePort();
+    
+    await Isolate.spawn(tarea, receivePort.sendPort);
+
+    receivePort.listen((mensaje) {
+      print(mensaje);
+      receivePort.close();
+    });
+    }
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item En este ejemplo, se crea un ReceivePort en el hilo principal para recibir mensajes.
+        \item Se inicia un nuevo Isolate (hilo) que ejecuta la función tarea, pasando su SendPort para enviar mensajes de vuelta al hilo principal.
+        \item El hilo principal "escucha" los mensajes entrantes y los procesa cuando llegan, permitiendo la comunicación entre hilos.
+        \item Al terminar de recibir mensajes, se cierra el ReceivePort para terminar el modo de escucha.
+    \end{itemize}
+    \item Isolate.spawn:
+    Esta función se utiliza para crear un nuevo Isolate (hilo) en Dart, permitiendo la ejecución concurrente de código y no detener el flujo principal.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    import 'dart:isolate';
+    void sumaGrande(SendPort port) {
+        int total = 0;
+        for (int i = 0; i < 500000000; i++) {
+            total += i;
+        }
+        port.send(total);
+    }
+
+    void main() async {
+        final receive = ReceivePort();
+        print("Iniciando tarea pesada en hilo paralelo...");
+        await Isolate.spawn(sumaGrande, receive.sendPort);
+
+        print("Mientras tanto, sigo ejecutando en el hilo principal...");
+        receive.listen((resultado) {
+            print("Resultado: $resultado");
+            receive.close();
+        });
+    }
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item En este ejemplo, se define una función sumaGrande que realiza una operación intensiva (sumar números hasta 500 millones) y envía el resultado de vuelta al hilo principal mediante un SendPort.
+        \item En la función main, se crea un ReceivePort para recibir el resultado y se inicia un nuevo Isolate con Isolate.spawn, pasando la función sumaGrande y el SendPort del ReceivePort.
+        \item Mientras el Isolate realiza la tarea pesada, el hilo principal continúa ejecutándose,con el objetivo de manejar tareas concurrentes sin bloquear la ejecución principal.
+        \item Finalmente, cuando el resultado está disponible, se recibe a través del ReceivePort y se imprime en la consola.
+    \end{itemize}
+    \item Comunicación de dos direcciones entre Isolates:
+    Aquí se muestra cómo establecer una comunicación bidireccional entre dos Isolates utilizando SendPort y ReceivePort.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    import 'dart:isolate';
+
+    void worker(SendPort mainPort) {
+    final receive = ReceivePort();
+
+    mainPort.send(receive.sendPort);
+    receive.listen((msg) {
+        final respuesta = "Recibido en worker: $msg";
+        mainPort.send(respuesta);
+    });
+    }
+
+    void main() async {
+    final mainReceive = ReceivePort();
+
+    final isolate = await Isolate.spawn(worker, mainReceive.sendPort);
+
+    SendPort? workerSendPort;
+
+    mainReceive.listen((mensaje) {
+        if (mensaje is SendPort) {
+        workerSendPort = mensaje;
+        print("Main: recibí el SendPort del worker.");
+
+        workerSendPort!.send("Mensaje desde main");
+        } else {
+        print("Main: respuesta del worker -> $mensaje");
+
+        mainReceive.close();
+        isolate.kill(priority: Isolate.immediate);
+        }
+    });
+    }
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item En este ejemplo, se define una función worker que crea un ReceivePort para recibir mensajes del hilo principal y envía su SendPort de vuelta al hilo principal.
+        \item En la función main, se crea un ReceivePort para recibir mensajes del worker y se inicia un nuevo Isolate con Isolate.spawn, pasando el SendPort del ReceivePort principal.
+        \item El hilo principal escucha los mensajes entrantes; cuando recibe el SendPort del worker, lo almacena y envía un mensaje al worker.
+        \item El worker procesa el mensaje recibido y envía una respuesta de vuelta al hilo principal.
+        \item Finalmente, el hilo principal imprime la respuesta del worker y cierra el ReceivePort, terminando la comunicación.
+    \end{itemize}
+    \item Suma de números sin Isolates:
+    Este ejemplo es usado para contrastarse con el ejemplo de suma con Isolates, mostrando cómo la ejecución secuencial ocupa más recursos y pone un estrés mayor en un nucleo singular.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    void main() {
+    print("Inicio");
+
+    int total = 0;
+    for (int i = 0; i < 500000000; i++) {
+        total += i;
+    }
+
+    print("Resultado: $total");
+    print("Fin");
+    }
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize} 
+        \item En este ejemplo, la función main realiza una suma secuencial de números desde 0 hasta 500 millones.
+        \item La ejecución se bloquea durante la operación intensiva, lo que puede hacer que la aplicación parezca no responder.
+        \item Este enfoque es menos eficiente en términos de uso de recursos, ya que no aprovecha la capacidad de múltiples núcleos del procesador.
+    \end{itemize}
+\end{itemize}
+\subsection{Patrones de diseño}
