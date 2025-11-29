@@ -10,4 +10,59 @@ En la imagen anterior podemos observar el menú de la aplicación donde primero 
 En esta imagen podemos observar el uso de la opción 3 del menú, en la cual sobreescribimos el archivo eliminando lo antes escrito, volvemos a usar la opción 2 para comprobar que se sobreescribió correctamente. Para finalizar usamos la opción 4 para salir de la aplicación
 
 \subsection{Hilos}
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Res3.png}
+\end{center}
+Se muestra como es que el método future permite esperar otra tarea para que la otra tarea asincrona pueda ocurrir.
+Se ve en la terminal la primer el fin de la primer tarea y luego de dos segundos el fin de la segunda.
+
+
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Res4.png}
+\end{center}
+En esta imagen se muestra como await afecta el tiempo y el modo de ejecución de un bloque de código.
+
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Res5.png}
+\end{center}
+En la imagen se muestra que se mando un paso de mensajes de una tarea diferente mediante los puertos.
+
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Res6.png}
+\end{center}
+Se muestra en la imagen como con el uso de isolate repartimos las tareas, mientras un hilo se encarga de las impresiones otro se encarga de hacer el cálculo.
+
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Res7.png}
+\end{center}
+En esta imagen podemos apreciar como mientras hay un puerto que recibe mensajes hay otro que los manda. Un hilo se encargará de mandar y otro de recibir. Se podría interpretar como una especie de chat primitivo entre hilos.
+
+
+\begin{center}
+    \includegraphics[width=0.8\textwidth]{Res8.png}
+\end{center}
+Se muestra el uso de una suma serial sin repartir las tareas entre hilos.
+
+
+\subsection{Patrones}
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{Res9.png}
+    \includegraphics[width=0.6\textwidth]{Res10.png}
+\end{center}
+
+Se muestra en la imagen la simulación de un combate pokemon primero se muestran los pokemons y sus características, para después mostrar la simulación del combate entre estos, esta simulación se detiene cuando la vida de uno llega a cero haciendo vencedor al pokemon con vida.
+
+
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{Res11.png}
+\end{center}
+
+Se muestra el funcionamiento de la app, que es una simulación de una impresora.
+Primero muestra los archivos que se mandaron a imprimir, así támbien muestra la cola de los archivos en impresión para después mostrar la simulación de la impresión de cada archivo y al final mostrar un historial de la impresora.
+
+
 
