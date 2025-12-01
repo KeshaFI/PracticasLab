@@ -1,15 +1,73 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{pdfpages}
+\usepackage[spanish]{babel}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage[left=1.3in,right=1.3in,top=1.3in,bottom=1.3in]{geometry}
+\usepackage{parskip}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage[ruled,vlined,spanish]{algorithm2e}
+\usepackage{tikz}
+\usepackage{aeguill}
+\usepackage[T1]{fontenc}
 
-\title{Proyecto3}
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolor}{rgb}{0.95,0.95,0.92}
+\lstdefinestyle{estilos}{
+backgroundcolor=\color{backcolor},
+commentstyle=\color{codegreen},
+keywordstyle=\color{magenta},
+numberstyle=\tiny\color{codegray},
+stringstyle=\color{codepurple},
+basicstyle=\ttfamily\footnotesize,
+%para que no se salga del recuadro gris
+breakatwhitespace=false,
+breaklines=true,
+captionpos=b,
+keepspaces=true,
+numbers=left,
+showspaces=false,
+showstringspaces=false,
+showtabs=false,
+tabsize=2
+}
+
+
 
 \date{November 2025}
 
 \begin{document}
+\tableofcontents
+\newpage
 
-\maketitle
+\section{Introducción}
+\input{Introduccion.tex}
+\newpage
 
-\section{Introduction}
-Prueba de  conexion 
+\section{Conceptos}
+\input{Conceptos.tex}
+\newpage
+
+\section{Desarrollo}
 \input{Desarrollo}
+\newpage
+
+\section{Resultados}
+\input{resultados.tex}
+\newpage
+
+\section{Conclusión}
+\input{Conclusion.tex}
+\newpage
+
+\newpage
+\addcontentsline{toc}{section}{Referencias}
+\bibliographystyle{IEEEtran}
+\bibliography{referenciasP3}
 \end{document}
