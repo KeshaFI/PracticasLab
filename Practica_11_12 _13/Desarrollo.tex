@@ -108,7 +108,7 @@ El diagrama dinámico que representa el código Archivos es el siguiente:
 
 \begin{figure}[H] % El entorno figure permite manejar la posición
     \centering % Centra la imagen
-    \includegraphics[width=0.7\textwidth]{DiagramaDinamicoArchivos.png} % Ajusta el tamaño y coloca el nombre del archivo
+    \includegraphics[width=0.7\textwidth]{Practica_11_12 _13/DiagramaDinamicoArchivos.png} % Ajusta el tamaño y coloca el nombre del archivo
     \caption{Diagrama dinámico / ARCHIVOS} % Texto debajo de la imagen
     \label{fig:ejemplo} % Etiqueta para referencias cruzadas
 \end{figure}
@@ -126,3 +126,277 @@ Hay 4 participantes:
 Cada uno representa un flujo posible cuando el usuario selecciona del 1 al 4.
 
 \subsection{Hilos}
+
+Los programas proporcionados nos permiten comprender e ilustrar funciones basicas de la programación concurrente mediante hilos (threads) en Dart.
+\begin{itemize}
+    \item Future.delayed: 
+    Esta función indica que una tarea se ejecutará después de un retraso específico, simulando operaciones asincrónicas.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    Future.delayed(Duration(seconds: 2), () {
+      print("Tarea asíncrona completada");
+    });
+
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item Duration especifica el tiempo de espera antes de ejecutar la función.
+        \item La función anónima dentro de Future.delayed se ejecuta después del retraso, demostrando la naturaleza no bloqueante de las operaciones asincrónicas.
+    \end{itemize}
+    \item await:
+    La palabra clave await se utiliza para esperar la finalización de una operación asincrónica antes de continuar con la ejecución del código.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    await Future.delayed(Duration(seconds: 2));
+    print("Tarea completada con await");
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item Aquí, el programa se pausa en la línea await hasta que la operación asincrónica (Future.delayed) se complete.
+        \item Esto permite escribir código que parece secuencial, pero que en realidad maneja operaciones asincrónicas de manera eficiente.
+    \end{itemize}
+    \item recievePort y sendPort:
+    Estos son mecanismos de comunicación entre hilos en Dart, permitiendo el intercambio de mensajes entre diferentes Isolates (hilos independientes).
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    void tarea(SendPort port){
+        port.send("Hola desde otro isolate");
+    }
+
+    void main() async {
+    final receivePort = ReceivePort();
+    
+    await Isolate.spawn(tarea, receivePort.sendPort);
+
+    receivePort.listen((mensaje) {
+      print(mensaje);
+      receivePort.close();
+    });
+    }
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item En este ejemplo, se crea un ReceivePort en el hilo principal para recibir mensajes.
+        \item Se inicia un nuevo Isolate (hilo) que ejecuta la función tarea, pasando su SendPort para enviar mensajes de vuelta al hilo principal.
+        \item El hilo principal "escucha" los mensajes entrantes y los procesa cuando llegan, permitiendo la comunicación entre hilos.
+        \item Al terminar de recibir mensajes, se cierra el ReceivePort para terminar el modo de escucha.
+    \end{itemize}
+    \item Isolate.spawn:
+    Esta función se utiliza para crear un nuevo Isolate (hilo) en Dart, permitiendo la ejecución concurrente de código y no detener el flujo principal.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    import 'dart:isolate';
+    void sumaGrande(SendPort port) {
+        int total = 0;
+        for (int i = 0; i < 500000000; i++) {
+            total += i;
+        }
+        port.send(total);
+    }
+
+    void main() async {
+        final receive = ReceivePort();
+        print("Iniciando tarea pesada en hilo paralelo...");
+        await Isolate.spawn(sumaGrande, receive.sendPort);
+
+        print("Mientras tanto, sigo ejecutando en el hilo principal...");
+        receive.listen((resultado) {
+            print("Resultado: $resultado");
+            receive.close();
+        });
+    }
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item En este ejemplo, se define una función sumaGrande que realiza una operación intensiva (sumar números hasta 500 millones) y envía el resultado de vuelta al hilo principal mediante un SendPort.
+        \item En la función main, se crea un ReceivePort para recibir el resultado y se inicia un nuevo Isolate con Isolate.spawn, pasando la función sumaGrande y el SendPort del ReceivePort.
+        \item Mientras el Isolate realiza la tarea pesada, el hilo principal continúa ejecutándose,con el objetivo de manejar tareas concurrentes sin bloquear la ejecución principal.
+        \item Finalmente, cuando el resultado está disponible, se recibe a través del ReceivePort y se imprime en la consola.
+    \end{itemize}
+    \item Comunicación de dos direcciones entre Isolates:
+    Aquí se muestra cómo establecer una comunicación bidireccional entre dos Isolates utilizando SendPort y ReceivePort.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    import 'dart:isolate';
+
+    void worker(SendPort mainPort) {
+    final receive = ReceivePort();
+
+    mainPort.send(receive.sendPort);
+    receive.listen((msg) {
+        final respuesta = "Recibido en worker: $msg";
+        mainPort.send(respuesta);
+    });
+    }
+
+    void main() async {
+    final mainReceive = ReceivePort();
+
+    final isolate = await Isolate.spawn(worker, mainReceive.sendPort);
+
+    SendPort? workerSendPort;
+
+    mainReceive.listen((mensaje) {
+        if (mensaje is SendPort) {
+        workerSendPort = mensaje;
+        print("Main: recibí el SendPort del worker.");
+
+        workerSendPort!.send("Mensaje desde main");
+        } else {
+        print("Main: respuesta del worker -> $mensaje");
+
+        mainReceive.close();
+        isolate.kill(priority: Isolate.immediate);
+        }
+    });
+    }
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize}
+        \item En este ejemplo, se define una función worker que crea un ReceivePort para recibir mensajes del hilo principal y envía su SendPort de vuelta al hilo principal.
+        \item En la función main, se crea un ReceivePort para recibir mensajes del worker y se inicia un nuevo Isolate con Isolate.spawn, pasando el SendPort del ReceivePort principal.
+        \item El hilo principal escucha los mensajes entrantes; cuando recibe el SendPort del worker, lo almacena y envía un mensaje al worker.
+        \item El worker procesa el mensaje recibido y envía una respuesta de vuelta al hilo principal.
+        \item Finalmente, el hilo principal imprime la respuesta del worker y cierra el ReceivePort, terminando la comunicación.
+    \end{itemize}
+    \item Suma de números sin Isolates:
+    Este ejemplo es usado para contrastarse con el ejemplo de suma con Isolates, mostrando cómo la ejecución secuencial ocupa más recursos y pone un estrés mayor en un nucleo singular.
+    \begin{center}:
+    \begin{lstlisting}[
+    % Opciones para la apariencia:
+    frame=single,    % Dibuja el recuadro (el marco)
+    numbers=left     % Muestra la numeración a la izquierda
+    % Puedes añadir las opciones de centrado si es necesario:
+    % xleftmargin=0.1\textwidth,
+    % xrightmargin=0.1\textwidth
+    ]
+    void main() {
+    print("Inicio");
+
+    int total = 0;
+    for (int i = 0; i < 500000000; i++) {
+        total += i;
+    }
+
+    print("Resultado: $total");
+    print("Fin");
+    }
+    \end{lstlisting}
+    \end{center}
+    \begin{itemize} 
+        \item En este ejemplo, la función main realiza una suma secuencial de números desde 0 hasta 500 millones.
+        \item La ejecución se bloquea durante la operación intensiva, lo que puede hacer que la aplicación parezca no responder.
+        \item Este enfoque es menos eficiente en términos de uso de recursos, ya que no aprovecha la capacidad de múltiples núcleos del procesador.
+    \end{itemize}
+\end{itemize
+
+\subsection{Patrones de diseño}
+Se describe la implementación de dos patrones de diseño en el contexto de la Ingeniería de Software, el patrón creacional tipo Singleton y el arquitectónico para un Modelo Vista Controlador (MVC) adaptado para un juego con temática de Pokemon.
+
+\subsubsection{Implementación de patrón en una gestión de impresoras}
+El problema maneja una sola cola de impresión compartida por múltiples usuarios mediante el patrón Singletone en su clase representativa $Impresora$. La estructura de la clase se diseñó para restringir la creación arbitraria de objetos, esto se logró mediante la definición de un constructor privado llamado $Impresora.\_interna()$, lo que impide que clases externas instancien la impresora directamente. En su lugar, se declaró una propiedad $static final Impresora _instancia$ que almacena la única instancia de la clase, la cual es inicializada internamente. 
+
+Para permitir el acceso global a esta instancia única, se utilizó un constructor de tipo factory. Este constructor no crea un nuevo objeto cada vez que es llamado, sino que retorna siempre la referencia a la instancia estática previamente creada, en otras palabras, intercepta la llamada de creación y retorna siempre la $\_instancia$ que ya existe para no crear otro objeto. Además, la clase encapsula las estructuras de datos esenciales para el funcionamiento del sistema, protegiéndolas con el modificador de privacidad:
+
+\begin{itemize}
+    \item Una cola $Queue<Documento> \_colaImpresion$  para manejar los documentos en orden FIFO.
+    \item Una lista $List<Documento> \_historial$ para el registro de impresiones.
+\end{itemize}
+Se expusieron métodos públicos únicamente para agregar documentos, imprimir el siguiente en la cola y visualizar el estado actual, manteniendo ocultos los detalles internos de almacenamiento.
+
+Posteriormente, hay que validar que el patrón funcione pues no deben existir múltiples impresoras, para ello se ingresaron las variables $impresoraA$ e $impresoraB$ en el $main$, la función $identical(impresoraA, impresoraB)$ arroja un $true$, lo que demuestra que existe un espacio compartido entre las variables pues apuntan al mismo objeto Singleton. Finalmente, tres usuarios distintos (Alice, Bob y Carlos) enviaron documentos a través de las diferentes referencias de la impresora. Al imprimir, se observó que todos los documentos se centralizaron en una única cola de impresión, respetando el orden de llegada independientemente de la referencia utilizada para enviarlos.
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Practica_11_12 _13/staticSingleton.png}
+    \caption{Diagrama de clases estático del Patrón Singleton aplicado al funcionamiento de una impresora}
+    \label{fig:placeholder}
+\end{figure}
+El diagrama de clases (Figura 3) ilustra la estructura interna de la clase $Impresora$ diseñada para restringir su instanciación, esto lo logra mediante el atributo estático que almacena la única instancia de la clase. La flecha de asociación que sale de la clase y regresa a sí misma representa visualmente que $Impresora$ es responsable de contener su propia instancia única.
+
+El constructor aparece marcado como privado (-). Esto indica estructuralmente que ningún agente externo (como el Main) tiene permiso para utilizar el operador new de forma convencional para generar nuevos objetos, forzando el uso del punto de acceso controlado. Por otra parte, se expone un método público (+), definido como $factory$, que actúa como la única puerta de entrada para obtener la referencia de la impresora.
+
+Las estructuras de datos como la $colaImpresion$ y el historial se muestran como atributos privados, asegurando que el estado de la impresión solo pueda ser modificado a través de los métodos de negocio expuestos (enviarDocumento, imprimirSiguiente), protegiendo así la integridad de la fila única.
+
+\begin{figure} [H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Practica_11_12 _13/dinamicSingleton.png}
+    \caption{Diagrama dinámico del Patrón Singleton aplicado al funcionamiento de una impresora}
+    \label{fig:placeholder}
+\end{figure}
+
+Respecto al diagrama de secuencia, modela el comportamiento del sistema en tiempo de ejecución durante la solicitud de recursos, destacan entre las más concurrentes al usuario realizando dos llamadas consecutivas al constructor de la $Impresora$. Se evidencia que, aunque el usuario solicita una "nueva" impresora dos veces, el sistema no crea dos objetos distintos pues en la primera llamada, se retorna la referencia a la instancia estática $ref: 0x01$.
+
+En la segunda llamada, el diagrama muestra que el objeto Singleton verifica la existencia de la instancia previa y retorna exactamente la misma referencia de memoria $ref: 0x01$. El flujo finaliza con una validación de identidad $identical$ confirmando que ambas variables locales en el $Main$ apuntan al mismo objeto físico en la memoria, cumpliendo así con el propósito fundamental del patrón: garantizar la unicidad del recurso compartido.
+
+\subsubsection{Juego de combate Pokémon}
+Se opta por el patrón MVC porque desacopla la lógica de combate con la interfaz del usuario, su capa del modelo define clases que representan las entidades del dominio (modelan los datos puros), encapsulando sus atributos y comportamientos básicos en la clase $Pokemon$ con atributos como vida, velocidad y tipo, además de subclases específicas para tipos $Fuego$ y $Hierba$ tomados como ejemplos.
+
+De igual manera, se modelaron los Ataques con su respectiva potencia y tipo, esta capa no tiene conocimiento alguno de cómo se muestran los datos ni de cómo se controla el flujo del juego. Se creó la clase abstracta $abstract class CombateView$ que define el contrato de métodos como $mostrarAtaque()$ o $mostrarGanador()$. La implementación concreta, $ConsoleCombateView$, es la única parte del código que interactúa con la salida estándar print.
+
+También se tiene una capa de controlador $CombateController$, es el cerebro, mantiene una referencia a la vista mediante la propiedad final $CombateView view;$, inyectada en su constructor, además, contiene el bucle principal del juego dentro del método $iniciarCombate()$, donde evalúa la lógica sobre quién es más rápido, cálculo de daño (lo duplica si es el caso) y dirige las llamadas a la vista para narrar el combate paso a paso.
+
+Para comprobar su funcionamiento, se simuló un combate instanciando un $CombateController$ y pasándole dos objetos del modelo (Charmander y Bulbasaur para este caso). Al ejecutar el programa, el controlador gestionó los turnos automáticamente basándose en el atributo velocidad del modelo, y la vista imprimió la secuencia de batalla en la consola, confirmando la separación de responsabilidades entre las tres capas. La consola mostró la narrativa del combate turno por turno, se verificó que cuando el personaje de tipo Fuego atacó al de tipo Hierba, el sistema calculó correctamente la ventaja de tipo (daño x2) y la Vista mostró el mensaje correspondiente. El ciclo finalizó automáticamente cuando la vida de uno de los objetos llegó a cero, declarando al ganador correctamente.
+
+Para su diagrama estático:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Practica_11_12 _13/staticMVC.png}
+    \caption{Diagrama de clases estático del Patrón MVC aplicado a un juego de Pokémon}
+    \label{fig:placeholder}
+\end{figure}
+
+Organiza los componentes del sistema en tres paquetes lógicos distintos; el primero es la independencia del modelo, el paquete $Modelo$ (clases Pokemon, Ataque) aparece aislado de la $Vista$. Esto indica que las entidades de datos no tienen conocimiento de cómo se representan en pantalla, debido a que solo contienen atributos (vida, velocidad) y lógica pura de negocio. Posteriormente, para una abstracción de la vista, se muestra una interfaz $CombateView$ que define un contrato claro para $mostrarAtaque$ y $mostrarGanador$, mientras que, la clase $CombateController$ depende de esta abstracción y no de la implementación concreta de $ConsoleCombateView$, lo que permitiría cambiar la consola por una interfaz gráfica en el futuro sin modificar el controlador.
+
+Además, el controlador a través de la clase $CombateController$ se sitúa como el eje central, teniendo asociaciones dirigidas hacia el $Modelo$ para leer/escribir datos y hacia la $Vista$ para enviar mensajes. Esto valida su rol de intermediario que gestiona la interacción entre los datos y el usuario.
+\newpage 
+Para el diagrama de secuencia, detalla el flujo de ejecución de un turno de combate, ilustrando la orquestación realizada por el Controlador:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Practica_11_12 _13/dinamicMVC.png}
+    \caption{Diagrama de secuencia del patrón MVC}
+    \label{fig:placeholder}
+\end{figure}
+
+La secuencia comienza cuando el $Main$ cede el control al llamar al método $iniciarCombate$ del Controlador. A partir de este punto, el Controlador dirige el flujo. Antes de ejecutar cualquier acción visible, el Controlador consulta al modelo $getVelocidad$ para determinar qué entidad debe actuar primero, demostrando que la lógica de decisión reside en el controlador y no en la vista, al ocurrir un ataque, el Controlador envía un mensaje al modelo $restarVida$ para modificar su estado interno.
+
+Inmediatamente después de que el modelo cambia o ocurre un evento, el Controlador invoca los métodos de la Vista $mostrarAtaque$ y $mostrarDanio$ para reflejar estos cambios al usuario. Finalmente el diagrama muestra un bucle cuya condición de terminación depende directamente del estado del modelo mientras la vida sea mayor que cero.
+
+
