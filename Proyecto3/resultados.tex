@@ -1,0 +1,43 @@
+
+
+Durante el desarrollo de la aplicación se obtuvo un sistema de batalla completamente funcional que simula las mecánicas básicas del videojuego Pokémon. En primer lugar, se implemento una estructura interna capaz de gestionar todos los elementos fundamentales del combate: cada Pokémon cuenta con puntos de vida (HP), velocidad, tipo elemental y una lista de ataques con daños y características específicas. Con base en estos elementos, la aplicación decide automáticamente cuál Pokémon actúa primero, siempre otorgando prioridad al que posea mayor velocidad. Este comportamiento se observa de manera consistente en las pruebas realizadas.
+
+A lo largo de la implementación, también se integró la tabla de ventajas y desventajas de tipos. Los resultados muestran que los ataques infligen daño doble, normal, reducido o nulo según la relación de tipos entre los Pokémon combatientes. Esto permitió reproducir fielmente el comportamiento esperado del sistema original. Cada acción altera visualmente los puntos de vida del rival, lo cual puede apreciarse en las capturas insertadas a continuación.
+
+\begin{figure}[H] % El entorno figure permite manejar la posición
+    \centering % Centra la imagen
+    \includegraphics[width=0.9\textwidth]{actualizacionHP.png} % Ajusta el tamaño y coloca el nombre del archivo
+    \caption{Actualización de HP} % Texto debajo de la imagen
+    \label{fig:ejemplo} % Etiqueta para referencias cruzadas
+\end{figure}
+
+La pantalla principal del combate despliega correctamente al Pokémon del usuario y al Pokémon rival, junto con sus estadísticas básicas. Además, el menú de batalla permite seleccionar ataques a través de una lista similar al diseño clásico del juego. Al seleccionar un movimiento, la aplicación ejecuta la lógica correspondiente y actualiza la interfaz sin interrupciones.
+
+\begin{figure}[H] % El entorno figure permite manejar la posición
+    \centering % Centra la imagen
+    \includegraphics[width=0.4\textwidth]{ataquesyMochila.png} % Ajusta el tamaño y coloca el nombre del archivo
+    \caption{Ataques y mochila} % Texto debajo de la imagen
+    \label{fig:ejemplo} % Etiqueta para referencias cruzadas
+\end{figure}
+
+-
+
+Uno de los resultados más importantes fue la incorporación de objetos como característica adicional. El sistema permite que el jugador utilice objetos curativos durante su turno para restaurar parte de la vida del Pokémon. Esta funcionalidad fue implementada y se verificó que el uso de objetos no permite sobrepasar el valor máximo de HP determinado para cada criatura. Asimismo, la aplicación alterna adecuadamente entre atacar y usar objetos según la opción seleccionada por el usuario.
+
+\begin{figure}[H] % El entorno figure permite manejar la posición
+    \centering % Centra la imagen
+    \includegraphics[width=0.5\textwidth]{objetosMochila.png} % Ajusta el tamaño y coloca el nombre del archivo
+    \caption{Objetos de la mochila} % Texto debajo de la imagen
+    \label{fig:ejemplo} % Etiqueta para referencias cruzadas
+\end{figure}
+
+Para asegurar el correcto funcionamiento de la lógica, se realizaron pruebas mediante el archivo \textit{prueba\_logica.dart}. En estas pruebas se confirmó que los cálculos de daño, el orden de turnos, la aplicación de objetos y la detección del final de la batalla operan sin anomalías. La batalla concluye en cuanto uno de los Pokémon llega a cero puntos de vida y la aplicación muestra el resultado final del combate.
+
+\begin{figure}[H] % El entorno figure permite manejar la posición
+    \centering % Centra la imagen
+    \includegraphics[width=0.7\textwidth]{finJuegoPK.png} % Ajusta el tamaño y coloca el nombre del archivo
+    \caption{Batalla terminada} % Texto debajo de la imagen
+    \label{fig:ejemplo} % Etiqueta para referencias cruzadas
+\end{figure}
+
+Estos resultados muestran que la aplicación cumple  con los requerimientos principales del proyecto: ofrece un sistema de combates por turnos, respeta las relaciones de tipos y añade profundidad estratégica mediante el uso de objetos. Las evidencias obtenidas mediante las capturas del funcionamiento demuestran que la aplicación responde adecuadamente y permite desarrollar batallas completas de manera intuitiva.
