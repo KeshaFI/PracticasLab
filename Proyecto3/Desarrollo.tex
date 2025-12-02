@@ -1,3 +1,35 @@
+\subsection{Lógica de combate, clases y abstracción}
+Se definieron modelos modelos de datos para representar las entidades del juego creando la clase $Pokemon$ para abstraer atributos como salud, velocidad, tipo elemental y ruta de imagen. De igual forma, se modelaron las clases $Ataque$ e $Item$ para gestionar las acciones ofensivas y defensivas respectivamente. Su lógica crítica del combate se aisló dentro de la clase batalla, encapsulando las reglas de combate tales como, la determinación del orden de turnos basados en su velocidad o bien el cálculo del daño.
+
+La clase $BattleScreen$ extiende a $StateFulWidget$, lo que permite el uso de un estado mutable para actualizar de forma dinámica la interfaz (barras de vida, bitácora de combate) cada vez que ocurría una interacción, utilizando el método $setState$ para re dibujar los widgets necesarios sin recargar toda la aplicación. Respecto a las fortalezas y debilidades, fue posible hacer una relación de los tipos de atacantes con los defensores mediante una estructura de datos tipo mapa (diccionario), al realizar dicha relación se devuelven los multiplicadores de daño en $const$ $Map$.
+
+La simulación comienza con la clase $Batalla$, razón por las que esta y las clases anteriores decidimos separarlas de la interfaz gráfica. La clase determina el orden de ataque comparando el atributo $velocidad$ de los objetos $Pokemon$ involucrados, utilizando así un encapsulamiento mediante la variable privada $\_atacanteActual$ para controlar el flujo.
+
+A través de $realizarAtaque$ implementa la lógica matemática del combate, utiliza una colección tipo $Map$ para verificar la relación entre el tipo del ataque y el tipo del defensor, aplicando los multiplicadores correspondientes según el pokémon, lo anterior culmina en una lista de cadenas de texto que describe el resultado del turno. Adicionalmente, existe $usarItem$ para gestionar una lógica defensiva invocando al método $curar$ del pokémon y consumir su turno.
+
+\subsection{Interfaz Gráfica}
+Para que exista una interacción visual, se implementa la clase $\_BattleScreenState$ que extiende a $State$ para mejorar el ciclo de vida de la aplicación, para comenzar con el combate, la función $\_inicializarBatalla$ crea los pokemon con sus estadísticas y la batalla. Adicionalmente las funciones $\_scrollToBottom$ para un ajuste automático del log durante el combate, así como $\_abrirMochila$ y $\_usarObjeto$ para la curación del jugador. 
+
+La interfaz de usuario se desarrolló siguiendo el paradigma declarativo de Flutter, donde la interfaz es un reflejo del estado actual de la aplicación con una arquitectura de Composición de Widgets para construir una interfaz compleja a partir de elementos simples.
+
+En la arquitectura de capas, se coloca una capa de fondo que funciona como un contenedor que renderiza la imagen del estadio $AssetImage$ ajustada para cubrir la totalidad del dispositivo. De forma invisible, también existe una capa que es el área central donde se posicionan los personajes mediante coordenadas relativas $Align$, permitiendo que el diseño se adapte a diferentes tamaños de pantalla (responsividad). Debajo del área del combate también se encuentra una capa superior que contiene la bitácora del texto para que siempre sean visibles. 
+
+Las imágenes son manipuladas geométricamente con $Transform.scale$ con un factor negativo en el eje X para invertir horizontalmente la imagen del usuario (Charizard), logrando que ambos combatientes se miren frente a frente sin necesidad de editar los archivos de imagen originales. Los personajes son acompañados con sus respectivas barras de vida, estas cuentan con widgets personalizados utilizando un $LinearProgressIndicator$ cuyo color cambia dinámicamente (Verde, Amarillo, Rojo) mediante una evaluación condicional del porcentaje de vida restante (hp / maxHp), proporcionando retroalimentación visual inmediata al jugador.
+
+\textbf{Gestión del estado}
+
+La interactividad se gestiona mediante la clase $_BattleScreenState$. Funciones asíncronas (\_atacar, \_usarObjeto) invocan al método $setState$, el cual notifica al framework sobre cambios en los datos, provocando la reconstrucción eficiente de solo los widgets afectados (como la reducción de la barra de vida o la aparición del botón de reinicio).
+
+\textbf{Gestión dinámica de controles}
+
+En lugar de codificar botones estáticos, se implementó una función generadora que itera sobre la colección de ataques del objeto Pokemon del usuario $\_buildAttackMenu$. Esta función construye dinámicamente una columna de botones $ElevatedButton$, asignando a cada uno el nombre y tipo del ataque correspondiente. Adicionalmente, se implementó una lógica de validación de estado en la propiedad $onPressed$: si la salud de algún combatiente llega a cero, los botones se deshabilitan automáticamente (null), impidiendo acciones fuera de turno o tras finalizar la partida.
+
+Lo anterior va directamente relacionado con el controlador de la secuencia de combate $\_atacar$ que refleja todo el flujo de un turno de batalla, invoca al método $realizarAtaque$ de la clase $Batalla$. Inmediatamente utiliza $setState$ para reflejar el daño en la barra de vida del rival y agregar los mensajes resultantes a la bitácora visual, posteriormente, dispara la función de auto-scroll para asegurar que el jugador visualice el resultado de su acción. Finalmente utiliza un $Future.delayed$ para introducir una pausa artificial de 1.5 segundos. Tras este lapso, ejecuta automáticamente el turno del rival invocando nuevamente la lógica de ataque y actualización de la interfaz, completando así el ciclo del turno sin bloquear el hilo principal de la aplicación.
+
+
+
+
+
 \subsection{Diagrama UML estático}
 \begin{center}
     \includegraphics[width=0.8\textwidth]{UML_Pokemon.png}
